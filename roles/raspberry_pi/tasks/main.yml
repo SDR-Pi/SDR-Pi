@@ -1,0 +1,11 @@
+- name: Check Host alive
+  ping:
+
+- name: Configure Networking
+  import_tasks: configure_network.yml
+
+- name: Configure Firewall
+  import_tasks: configure_firewall.yml
+
+- name: Install Packages
+  import_tasks: configure_packages.yml  

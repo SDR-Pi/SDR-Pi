@@ -1,0 +1,38 @@
+---
+- name: (Raspberry Pi - Firewall) - prevent the iptables-persistent install dialog
+  debconf: name=iptables-persistent question={{ item }} vtype=boolean value=true
+  with_items:
+  - iptables-persistent/autosave_v4
+  - iptables-persistent/autosave_v6
+  - ipset-persistent/autosave
+
+- name: (Raspberry Pi - Firewall) - Install firewall packages
+  apt:
+    pkg:
+    - iptables-persistent
+    - netfilter-persistent
+    - iprange
+    - ipset
+    - ipset-persistent
+
+- name: (Raspberry Pi - Firewall) - Deploy ipsets /etc/iptables/ipsets
+  template:
+   src: etc/iptables/ipsets.j2
+   dest: /etc/iptables/ipsets
+
+- name: (Raspberry Pi - Firewall) - Deploy IPv4 Firewall /etc/iptables/rules.v4
+  template:
+   src: etc/iptables/rules.v4.j2
+   dest: /etc/iptables/rules.v4
+
+- name: (Raspberry Pi - Firewall) - Deploy IPv6 Firewall /etc/iptables/rules.v6
+  template:
+    src: etc/iptables/rules.v6.j2
+    dest: /etc/iptables/rules.v6
+
+- name: (Raspberry Pi - Firewall) - restart netfilter-persistent (iptables)
+  become: yes
+  service: 
+    name: netfilter-persistent 
+    enabled: yes 
+    state: restarted

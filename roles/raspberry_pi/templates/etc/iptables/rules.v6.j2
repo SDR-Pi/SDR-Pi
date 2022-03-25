@@ -1,0 +1,39 @@
+*filter
+:INPUT DROP [0:0]
+# Allow local / related traffic through quickly
+-A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+
+# Allow Ping (ICMP required for IPv6)
+-A INPUT -p ipv6-icmp -j ACCEPT
+
+# Allow SSH 
+-A INPUT -p tcp --dport 22 -j ACCEPT
+
+# Allow DNS
+-A INPUT -p udp --dport 53 -j ACCEPT
+-A INPUT -p tcp --dport 53 -j ACCEPT
+
+# Allow Avahi/Zeroconf
+-A INPUT -p udp --dport 5353 -j ACCEPT
+-A INPUT -p tcp --dport 5353 -j ACCEPT
+
+# Allow HTTP/HTTPS
+-A INPUT -p tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp --dport 443 -j ACCEPT
+
+# Allow SoapySDR
+# Pseudo port-knock with a 300 second (5 min) cache on the ipset based on talking to the control port.
+-A INPUT -p tcp -m tcp --dport 55132 -j SET --add-set upnpv6 src --exist
+# Limited to "high" ports
+-A INPUT -p udp --dport 1025:65535 -m set --match-set upnpv6 src -j ACCEPT
+-A INPUT -p tcp --dport 1025:65535 -m set --match-set upnpv6 src -j ACCEPT
+-A INPUT -p tcp --dport 55132 -j ACCEPT
+-A INPUT -p udp --dport 17500 -j ACCEPT
+
+-A INPUT -j LOG --log-prefix "IP6Tables: "
+-A INPUT -j DROP
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+#-A OUTPUT -p udp --dport 5353 -j DROP
+COMMIT

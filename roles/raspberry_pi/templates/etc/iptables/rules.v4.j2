@@ -1,0 +1,55 @@
+*filter
+:INPUT DROP [0:0]
+# Allow local / related traffic through quickly
+-A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+
+# Allow Ping
+-A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+
+# Allow SSH 
+-A INPUT -p tcp --dport 22 -j ACCEPT
+
+# Allow DNS
+-A INPUT -p udp --dport 53 -j ACCEPT
+-A INPUT -p tcp --dport 53 -j ACCEPT
+
+# Allow Avahi/Zeroconf
+-A INPUT -p udp --dport 5353 -j ACCEPT
+-A INPUT -p tcp --dport 5353 -j ACCEPT
+
+# Allow HTTP/HTTPS
+-A INPUT -p tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp --dport 443 -j ACCEPT
+
+# Allow SoapySDR
+# Pseudo port-knock with a 300 second (5 min) cache on the ipset based on talking to the control port.
+-A INPUT -p tcp -m tcp --dport 55132 -j SET --add-set upnp src --exist
+# Limited to "high" ports
+-A INPUT -p udp --dport 1025:65535 -m set --match-set upnp src -j ACCEPT
+-A INPUT -p tcp --dport 1025:65535 -m set --match-set upnp src -j ACCEPT
+-A INPUT -p tcp --dport 55132 -j ACCEPT
+-A INPUT -p udp --dport 17500 -j ACCEPT
+
+
+-A INPUT -j LOG --log-prefix "IP4Tables: "
+-A INPUT -j DROP
+
+:FORWARD ACCEPT [0:0]
+-A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+-A FORWARD -p icmp -m icmp --icmp-type 8 -j ACCEPT
+#-A FORWARD -j LOG --log-prefix "IP4Tables: "
+#-A FORWARD -j DROP
+
+:OUTPUT ACCEPT [0:0]
+
+COMMIT
+
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A POSTROUTING -o eth0 -j MASQUERADE
+#-A POSTROUTING -o wlan0 -j MASQUERADE
+:OUTPUT ACCEPT [0:0]
+COMMIT
