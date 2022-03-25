@@ -4,5 +4,36 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"cSpell.words": [
+			"airspy",
+			"autosave",
+			"bladerf",
+			"cubicsdr",
+			"cutesdr",
+			"debconf",
+			"gnss",
+			"gpsbabel",
+			"gqrx",
+			"hackrf",
+			"hamradio",
+			"Imager",
+			"inet",
+			"inspectrum",
+			"iprange",
+			"limesuite",
+			"miri",
+			"netfilter",
+			"osmo",
+			"qthid",
+			"quisk",
+			"soapyremote",
+			"soapysdr",
+			"sshpass",
+			"udev",
+			"upnp",
+			"upnpv",
+			"vtype"
+		]
+	}
 }
