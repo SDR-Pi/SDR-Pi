@@ -1,0 +1,33 @@
+- name: (SoapySDR - Packages) - Install Required Packages
+  apt:
+    pkg:
+      - soapyremote-server
+      - soapysdr-module-all
+      - soapysdr-tools
+
+- name: (SoapySDR - Packages) - Install SDR Support Packages
+  apt:
+    pkg:
+      - airspy
+      - bladerf
+      - cubicsdr
+      - cutesdr
+      - gnss-sdr
+      - hackrf
+      - limesuite
+      - limesuite-udev
+      - miri-sdr
+      - osmo-sdr
+      - osmo-trx
+      - rtl-sdr
+      - qthid-fcd-controller
+      - uhd-soapysdr
+
+- name: (SoapySDR - Packages) - Install Helpful Packages
+  apt:
+    pkg:
+      - gpsbabel
+      - gqrx-sdr
+      - inspectrum
+      - quisk
+      #- hamradio-sdr

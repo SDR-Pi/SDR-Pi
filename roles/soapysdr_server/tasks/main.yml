@@ -1,0 +1,5 @@
+- name: Check Host alive
+  ping:
+
+- name: Install Packages
+  import_tasks: configure_packages.yml  
