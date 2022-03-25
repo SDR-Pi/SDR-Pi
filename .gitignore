@@ -1,2 +1,2 @@
 sdr-pi.code-workspace
-roles/raspberry_pi/templates/etc/iptables/rules.v6.j2
+.DS_Store
