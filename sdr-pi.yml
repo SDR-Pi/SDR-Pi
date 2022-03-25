@@ -1,0 +1,8 @@
+---
+# Required to parse all variables
+- hosts: all
+
+- hosts: sdr_pis
+  roles:
+    - raspberry_pi
+    - soapysdr_server

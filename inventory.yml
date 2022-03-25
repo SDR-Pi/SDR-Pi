@@ -1,0 +1,8 @@
+all:
+  vars:
+    test: "test"
+  children:
+    sdr_pis:
+      hosts:
+        sdr_pi:
+          ansible_host: sdr-pi
