@@ -41,3 +41,10 @@ Tested on:
 7. Test ssh access:
     - ```ssh pi@sdr-pi.local```
 
+## Deploy Playbook
+
+The sdr-pi playbook can be executed from a host with both ansible and sshpass installed.
+
+To run the playbook use: 
+
+```ansible-playbook -i inventory.yml sdr-pi.yml --ask-pass```
