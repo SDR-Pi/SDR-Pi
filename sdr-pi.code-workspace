@@ -33,7 +33,8 @@
 			"udev",
 			"upnp",
 			"upnpv",
-			"vtype"
+			"vtype",
+			"webserver"
 		]
 	}
 }

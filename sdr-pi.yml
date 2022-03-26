@@ -5,4 +5,6 @@
 - hosts: sdr_pis
   roles:
     - raspberry_pi
+    - webserver
     - soapysdr_server
+    - readonly_pi
