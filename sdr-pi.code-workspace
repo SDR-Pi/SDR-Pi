@@ -6,6 +6,7 @@
 	],
 	"settings": {
 		"cSpell.words": [
+			"accesspoint",
 			"airspy",
 			"autosave",
 			"bladerf",
@@ -20,6 +21,7 @@
 			"Imager",
 			"inet",
 			"inspectrum",
+			"ipaddress",
 			"iprange",
 			"ipsets",
 			"libapache",
@@ -36,7 +38,8 @@
 			"upnp",
 			"upnpv",
 			"vtype",
-			"webserver"
+			"webserver",
+			"wlan"
 		]
 	}
 }
