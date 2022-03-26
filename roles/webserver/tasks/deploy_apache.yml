@@ -7,3 +7,20 @@
       - php-pear
       - libapache2-mod-php7.4
     update_cache: yes
+
+- name: (Webserver - Apache) - Deploy Apache Port config
+  template:
+    src: etc/apache2/ports.conf.j2
+    dest: /etc/apache2/ports.conf
+
+- name: (Webserver - Apache) - Deploy Apache Site config
+  template:
+    src: etc/apache2/sites-available/000-default.conf.j2
+    dest: /etc/apache2/sites-available/000-default.conf
+
+- name: (Webserver - Apache) - restart Apache web server
+  become: yes
+  service: 
+    name: apache2
+    enabled: yes 
+    state: restarted
