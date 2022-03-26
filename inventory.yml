@@ -1,6 +1,10 @@
 all:
   vars:
     internal_domain: "sdr.radio"
+    certificate_authority_name: "SDR-Pi"
+    certificate_authority_cert_file: "/etc/ssl/certs/ssl-cert-snakeoil.pem"
+    certificate_authority_key_file: ""
+
   children:
     sdr_pis:
       hosts:
