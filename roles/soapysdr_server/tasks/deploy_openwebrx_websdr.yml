@@ -1,0 +1,18 @@
+---
+- name: (SoapySDR - OpenWebRx) - Import GPG Key
+  apt_key:
+    url: https://repo.openwebrx.de/debian/key.gpg.txt
+    state: present
+
+- name: (SoapySDR - OpenWebRx) - Import Apt-Repo
+  apt_repository:
+    repo: deb https://repo.openwebrx.de/debian/ experimental main
+    state: present
+    filename: openwebrx
+
+- name: (SoapySDR - OpenWebRx) - Install OpenWebRx Packages
+  apt:
+    pkg:
+      - openwebrx
+      - soapy-connector
+    update_cache: yes

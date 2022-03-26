@@ -1,5 +1,8 @@
-- name: Check Host alive
+- name: (SoapySDR) Check Host alive
   ping:
 
-- name: Install Packages
+- name: (SoapySDR) Install Packages
   import_tasks: configure_packages.yml  
+
+- name: (SoapySDR) Deploy OpenWebRx WebSDR
+  import_tasks: deploy_openwebrx_websdr.yml
