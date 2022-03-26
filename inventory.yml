@@ -1,6 +1,6 @@
 all:
   vars:
-    test: "test"
+    internal_domain: "sdr.radio"
   children:
     sdr_pis:
       hosts:
