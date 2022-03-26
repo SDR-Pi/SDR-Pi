@@ -1,8 +1,8 @@
-- name: (Raspberry Pi - Firewall) - Install aptitude
+- name: (Raspberry Pi - Packages) - Install aptitude
   apt:
     name: aptitude
 
-- name: (Raspberry Pi - Firewall) - Update all packages to the latest version
+- name: (Raspberry Pi - Packages) - Update all packages to the latest version
   apt:
     update_cache: yes
     upgrade: full
