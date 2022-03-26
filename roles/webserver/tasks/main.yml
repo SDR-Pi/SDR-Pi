@@ -5,5 +5,8 @@
 - name: (Webserver) Deploy Apache
   import_tasks: deploy_apache.yml
 
-- name: (Webserver) Deploy HAProxy
-  import_tasks: deploy_haproxy.yml
+# - name: (Webserver) Deploy HAProxy
+#   import_tasks: deploy_haproxy.yml
+
+- name: (Webserver) Deploy NginX
+  import_tasks: deploy_nginx.yml

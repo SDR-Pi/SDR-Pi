@@ -1,0 +1,17 @@
+---
+- name: (Webserver - NginX) - Install NginX Packages
+  apt:
+    pkg:
+      - nginx
+
+- name: (Webserver - NginX) - Deploy NginX config /etc/nginx/sites-available/default
+  template:
+   src: etc/nginx/sites-available/default.j2
+   dest: /etc/nginx/sites-available/default
+
+- name: (Webserver - NginX) - Restart NginX to pick up custom config
+  become: yes
+  service: 
+    name: nginx
+    enabled: yes 
+    state: restarted
