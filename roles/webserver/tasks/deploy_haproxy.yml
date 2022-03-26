@@ -1,5 +1,4 @@
 ---
-
 - name: (Webserver - HAProxy) - Install HAProxy Packages
   apt:
     pkg:
@@ -7,6 +6,20 @@
       - vim-haproxy 
       - haproxy-doc
     update_cache: yes
+
+- name: (Webserver - HAProxy) - Slurp CA Cert
+  slurp:
+    src: "{{certificate_authority_cert_file}}"
+  register: ca_cert
+
+- name: (Webserver - HAProxy) - Set it as a fact so that it can be accessed afterwards
+  set_fact:
+    ca_cert_contents: "{{ ca_cert['content'] }}"
+
+- name: (Webserver - HAProxy) - Create single file server for "cert"
+  template:
+   src: etc/haproxy/errors/cert.http.j2
+   dest: /etc/haproxy/errors/cert.http
 
 - name: (Webserver - HAProxy) - Create SSL Directory (/etc/haproxy/ssl)
   file:
@@ -17,3 +30,10 @@
   template:
    src: etc/haproxy/haproxy.cfg.j2
    dest: /etc/haproxy/haproxy.cfg
+
+- name: (Webserver - HAProxy) - Restart HAProxy to pick up custom config
+  become: yes
+  service: 
+    name: haproxy
+    enabled: yes 
+    state: restarted

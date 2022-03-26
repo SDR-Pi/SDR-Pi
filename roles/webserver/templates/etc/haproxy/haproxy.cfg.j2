@@ -12,15 +12,16 @@ global
 	ca-base /etc/ssl/certs
 	crt-base /etc/ssl/private
 
-	# nb. Covenant 0.6 requires force-tlsv10 and weak ciphers for HTTP grunts to connect 
 	# See: https://ssl-config.mozilla.org/#server=haproxy&version=2.0.3&config=old&openssl=1.1.1d&hsts=false&ocsp=false&guideline=5.6
 	ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-EC>
 	ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
-	ssl-default-bind-options no-sslv3 no-tls-tickets
+	#ssl-default-bind-options no-sslv3 no-tls-tickets
+	ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets
 
 	ssl-default-server-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE->
 	ssl-default-server-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
-	ssl-default-server-options no-sslv3 no-tls-tickets
+	#ssl-default-server-options no-sslv3 no-tls-tickets
+	ssl-default-server-options ssl-min-ver TLSv1.2 no-tls-tickets
 
 	# Make headers Case Sensitive to play nice with weird webservers
 	h1-case-adjust x-forwarded-for X-Forwarded-For
@@ -48,14 +49,16 @@ frontend http
 	option forwardfor
 	capture request header X-Forwarded-For len 15
 
+	errorfile 200 /etc/haproxy/errors/cert.http if { hdr_beg(host) -i cert }
+	redirect scheme https code 301 if !{ ssl_fc }
+
 
 frontend https
-	bind 0.0.0.0:443 ssl crt /etc/haproxy/haproxy/ssl/multi.pem force-tlsv10 verify none
+	bind 0.0.0.0:443 ssl crt /etc/haproxy/ssl/multi.pem verify none
 	mode http
 	capture request header X-Forwarded-For len 15
 	
-	acl websdr -path -i -m beg /websdr
-	use backend backend_websdr if websdr
+	use_backend backend_websdr if { path -i -m beg /websdr }
 
 	default_backend backend_apache
 
@@ -68,3 +71,5 @@ backend backend_websdr
 	mode http
 	#option forwardfor
 	server websdr 127.0.0.1:8073 check
+
+
