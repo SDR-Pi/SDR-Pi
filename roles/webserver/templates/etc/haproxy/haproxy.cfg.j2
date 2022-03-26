@@ -1,0 +1,70 @@
+global
+	log /dev/log	local0
+	log /dev/log	local1 notice
+	chroot /var/lib/haproxy
+	stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+	stats timeout 30s
+	user haproxy
+	group haproxy
+	daemon
+
+	# Default SSL material locations
+	ca-base /etc/ssl/certs
+	crt-base /etc/ssl/private
+
+	# nb. Covenant 0.6 requires force-tlsv10 and weak ciphers for HTTP grunts to connect 
+	# See: https://ssl-config.mozilla.org/#server=haproxy&version=2.0.3&config=old&openssl=1.1.1d&hsts=false&ocsp=false&guideline=5.6
+	ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-EC>
+	ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+	ssl-default-bind-options no-sslv3 no-tls-tickets
+
+	ssl-default-server-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE->
+	ssl-default-server-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+	ssl-default-server-options no-sslv3 no-tls-tickets
+
+	# Make headers Case Sensitive to play nice with weird webservers
+	h1-case-adjust x-forwarded-for X-Forwarded-For
+	h1-case-adjust x-real-ip X-Real-IP
+
+defaults
+	log	global
+	mode	http
+	option	httplog
+	option	dontlognull
+        timeout connect 5000
+        timeout client  50000
+        timeout server  50000
+	errorfile 400 /etc/haproxy/errors/400.http
+	errorfile 403 /etc/haproxy/errors/403.http
+	errorfile 408 /etc/haproxy/errors/408.http
+	errorfile 500 /etc/haproxy/errors/500.http
+	errorfile 502 /etc/haproxy/errors/502.http
+	errorfile 503 /etc/haproxy/errors/503.http
+	errorfile 504 /etc/haproxy/errors/504.http
+
+frontend http
+	bind 0.0.0.0:80
+	option http-server-close
+	option forwardfor
+	capture request header X-Forwarded-For len 15
+
+
+frontend https
+	bind 0.0.0.0:443 ssl crt /etc/haproxy/haproxy/ssl/multi.pem force-tlsv10 verify none
+	mode http
+	capture request header X-Forwarded-For len 15
+	
+	acl websdr -path -i -m beg /websdr
+	use backend backend_websdr if websdr
+
+	default_backend backend_apache
+
+backend backend_apache
+	mode http
+	#option forwardfor
+	server apache 127.0.0.1:8080 check
+
+backend backend_websdr
+	mode http
+	#option forwardfor
+	server websdr 127.0.0.1:8073 check

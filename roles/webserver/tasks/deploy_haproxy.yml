@@ -1,0 +1,19 @@
+---
+
+- name: (Webserver - HAProxy) - Install HAProxy Packages
+  apt:
+    pkg:
+      - haproxy
+      - vim-haproxy 
+      - haproxy-doc
+    update_cache: yes
+
+- name: (Webserver - HAProxy) - Create SSL Directory (/etc/haproxy/ssl)
+  file:
+    path: /etc/haproxy/ssl
+    state: directory
+
+- name: (Webserver - HAProxy) - Deploy HAProxy config /etc/haproxy/haproxy.cfg
+  template:
+   src: etc/haproxy/haproxy.cfg.j2
+   dest: /etc/haproxy/haproxy.cfg

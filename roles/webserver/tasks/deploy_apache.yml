@@ -1,0 +1,9 @@
+---
+- name: (Webserver - Apache) - Install Apache2 Packages
+  apt:
+    pkg:
+      - apache2
+      - apache2-doc
+      - php-pear
+      - libapache2-mod-php7.4
+    update_cache: yes

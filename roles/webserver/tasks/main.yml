@@ -1,1 +1,9 @@
 ---
+- name: (Webserver) Check Host alive
+  ping:
+
+- name: (Webserver) Deploy Apache
+  import_tasks: deploy_apache.yml
+
+- name: (Webserver) Deploy HAProxy
+  import_tasks: deploy_haproxy.yml
