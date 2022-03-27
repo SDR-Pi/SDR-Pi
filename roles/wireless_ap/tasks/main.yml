@@ -10,3 +10,6 @@
 
 - name: (Wireless - Main) - Configure HostAPD
   import_tasks: configure_hostapd.yml
+
+- name: (Wireless - Main) - Configure dnsmasq
+  import_tasks: configure_dnsmasq.yml

@@ -1,6 +1,7 @@
-- name: (SoapySDR - Packages) - Install SDR Support Packages
+- name: (Wireless - Packages) - Install Required Packages
   apt:
     pkg:
       - hostapd
+      - dnsmasq
 
 
