@@ -7,3 +7,6 @@
 
 - name: (Wireless - Main) - Configure Network
   import_tasks: configure_network.yml
+
+- name: (Wireless - Main) - Configure HostAPD
+  import_tasks: configure_hostapd.yml

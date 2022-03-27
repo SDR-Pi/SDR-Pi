@@ -1,6 +1,32 @@
 ---
+- name: (Wireless - HostAPD) - Deploy Configuration
+  template:
+   src: etc/hostapd/hostapd.tmpl.j2
+   dest: /etc/hostapd/hostapd.tmpl
+
+- name: (Wireless - HostAPD) - Deploy SystemD Unit
+  template:
+   src: lib/systemd/system/hostapd.service.j2
+   dest: /lib/systemd/system/hostapd.service
+
+- name: (Wireless - HostAPD) - Creates directory inc path
+  file:
+    path: /usr/sdr-pi/bin/
+    state: directory
+
+- name: (Wireless - HostAPD) - Deploy SSID Changing Script
+  template:
+   src: usr/sdr-pi/bin/dynamic-ssid-from-mac.sh.j2
+   dest: /usr/sdr-pi/bin/dynamic-ssid-from-mac.sh
+   owner: root
+   group: root
+   mode: '0755'
 
 
-# Get MAC of eth0
-#cat /sys/class/net/eth0/address | tr -d ":"
-#{{ interface_wlan0_ipaddress }}
+- name: (Wireless - HostAPD) | Make sure the service is unmasked, started, and enabled
+  systemd:
+    name: hostapd
+    state: started
+    enabled: yes
+    masked: no
+

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+MACADDRESS=$(cat /sys/class/net/eth0/address | tr -d ":")
+TEMPLATE="/etc/hostapd/hostapd.tmpl"
+DESTINATION="/etc/hostapd/hostapd.conf"
+
+cat ${TEMPLATE} | sed -e "s/MACADDRESS/${MACADDRESS}/" > ${DESTINATION}

@@ -6,9 +6,11 @@ all:
     certificate_authority_key_file: ""
     wireless_country_code: "GB"
     wireless_accesspoint_stub_ssid: "SDR-pi"
-    wireless_accesspoint_stub_password: ""
-    interface_wlan0_ipaddress: "192.168.0.1"
-    interface_eth0_ipaddress: "192.168.1.1"
+    wireless_accesspoint_password: "WiFi4-SDR-pi"
+    interface_wlan0_subnet: "192.168.0."
+    interface_eth0_subnet: "192.168.1."
+    interface_wlan0_ipaddress: "{{ interface_wlan0_subnet }}1"
+    interface_eth0_ipaddress: "{{ interface_eth0_subnet }}1"
 
   children:
     sdr_pis:
