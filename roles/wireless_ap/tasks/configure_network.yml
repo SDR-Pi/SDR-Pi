@@ -1,0 +1,47 @@
+- name: (Wireless - Networking) - Set Wireless Country Code
+  command: /usr/bin/raspi-config nonint do_wifi_country {{ wireless_country_code }}
+
+- name: (Wireless - Networking) - Create Interfaces Config Directory (/etc/network/interfaces.sdr)
+  file:
+    path: /etc/network/interfaces.sdr
+    state: directory
+
+- name: (Wireless - Networking) - Create Network configuration for wlan0
+  template:
+   src: etc/network/interfaces.sdr/wlan0.j2
+   dest: /etc/network/interfaces.sdr/wlan0
+
+- name: (Wireless - Networking) - Activate Network configuration for wlan0
+  ansible.builtin.file:
+    src: /etc/network/interfaces.sdr/wlan0
+    dest: /etc/network/interfaces.d/wlan0
+    owner: root
+    group: root
+    state: link
+    force: true
+
+- name: (Wireless - Networking) - Create Network configuration for eth0
+  template:
+   src: etc/network/interfaces.sdr/eth0.j2
+   dest: /etc/network/interfaces.sdr/eth0
+
+- name: (Wireless - Networking) - Create Entry for br0
+  template:
+   src: etc/network/interfaces.sdr/br0.j2
+   dest: /etc/network/interfaces.sdr/br0
+
+- name: (Wireless - Networking) - Activate Network configuration for br0
+  ansible.builtin.file:
+    src: /etc/network/interfaces.sdr/br0
+    dest: /etc/network/interfaces.d/br0
+    owner: root
+    group: root
+    state: link
+    force: true
+
+- name: (Wireless - Networking) - Activate Network components
+  shell: ifup {{ item }}
+  with_items:
+    - wlan0
+    - br0
+

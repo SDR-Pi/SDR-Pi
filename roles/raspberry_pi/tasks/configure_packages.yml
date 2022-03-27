@@ -6,3 +6,9 @@
   apt:
     update_cache: yes
     upgrade: full
+
+- name: (Raspberry Pi - Packages) - Install Some Helpful Packages
+  apt:
+    pkg:
+      - lsof
+      - mlocate

@@ -1,0 +1,6 @@
+---
+
+
+# Get MAC of eth0
+#cat /sys/class/net/eth0/address | tr -d ":"
+#{{ interface_wlan0_ipaddress }}

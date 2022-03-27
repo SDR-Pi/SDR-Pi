@@ -1,0 +1,9 @@
+---
+- name: (Wireless - Main) - Check Host Alive
+  ping:
+
+- name: (Wireless - Main) - Deploy Packages
+  import_tasks: configure_packages.yml
+
+- name: (Wireless - Main) - Configure Network
+  import_tasks: configure_network.yml

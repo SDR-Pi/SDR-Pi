@@ -27,6 +27,7 @@
 			"libapache",
 			"limesuite",
 			"miri",
+			"mlocate",
 			"netfilter",
 			"osmo",
 			"qthid",

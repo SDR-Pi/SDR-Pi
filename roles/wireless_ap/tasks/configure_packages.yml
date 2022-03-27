@@ -1,0 +1,6 @@
+- name: (SoapySDR - Packages) - Install SDR Support Packages
+  apt:
+    pkg:
+      - hostapd
+
+
