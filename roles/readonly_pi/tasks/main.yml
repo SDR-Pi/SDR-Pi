@@ -1,3 +1,5 @@
 ---
 - name: (Readonly Pi) - Host alive
   ping:
+
+  #raspi-config nonint do_wifi_country XX
