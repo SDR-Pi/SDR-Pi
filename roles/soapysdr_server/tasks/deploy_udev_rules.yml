@@ -1,7 +1,7 @@
 - name: (SoapySDR - udev) - Deploy script to bounce soapyremote-server
   template:
    src: usr/sdr-pi/bin/bounce-soapysever-remote.sh.j2
-   dest: /usr/sdr-pi/bin/bounce-soapysever-remote.sh
+   dest: "{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
    owner: root
    group: root
    mode: '0755'

@@ -11,13 +11,13 @@
 
 - name: (Wireless - HostAPD) - Creates directory inc path
   file:
-    path: /usr/sdr-pi/bin/
+    path: {{ sdr_pi_folder }}/bin/
     state: directory
 
 - name: (Wireless - HostAPD) - Deploy SSID Changing Script
   template:
    src: usr/sdr-pi/bin/dynamic-ssid-from-mac.sh.j2
-   dest: /usr/sdr-pi/bin/dynamic-ssid-from-mac.sh
+   dest: {{ sdr_pi_folder }}/bin/dynamic-ssid-from-mac.sh
    owner: root
    group: root
    mode: '0755'

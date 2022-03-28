@@ -9,7 +9,7 @@ PIDFile=/run/hostapd.pid
 Restart=on-failure
 RestartSec=2
 Environment=DAEMON_CONF=/etc/hostapd/hostapd.conf
-ExecStartPre=/usr/sdr-pi/bin/dynamic-ssid-from-mac.sh
+ExecStartPre={{ sdr_pi_folder }}/bin/dynamic-ssid-from-mac.sh
 EnvironmentFile=-/etc/default/hostapd
 ExecStart=/usr/sbin/hostapd -B -P /run/hostapd.pid -B $DAEMON_OPTS ${DAEMON_CONF}
 

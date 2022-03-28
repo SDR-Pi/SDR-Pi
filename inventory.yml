@@ -13,6 +13,7 @@ all:
     interface_eth0_subnet: "192.168.1."
     interface_wlan0_ipaddress: "{{ interface_wlan0_subnet }}1"
     interface_eth0_ipaddress: "{{ interface_eth0_subnet }}1"
+    sdr_pi_folder: "/usr/sdr-pi"
 
   children:
     sdr_pis:
