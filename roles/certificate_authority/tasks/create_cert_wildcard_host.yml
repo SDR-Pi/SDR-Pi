@@ -23,3 +23,8 @@
   set_fact:
     wildcard_cert_contents: "{{ wildcard_cert['content'] }}"
     wildcard_key_contents: "{{ wildcard_key['content']  }}"
+
+- name: (Certificate Authority - Wildcard) - Create Chained "wildcard" Key
+  shell: "cat {{ sdr_pi_folder }}/pki/private/wildcard.key {{ certificate_authority_cert_file }} >> {{ sdr_pi_folder }}/pki/issued/wildcard.crt"
+  args: 
+    creates: "{{ sdr_pi_folder }}/pki/issued/wildcard.crt"
