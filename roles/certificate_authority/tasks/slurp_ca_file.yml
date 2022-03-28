@@ -1,0 +1,16 @@
+---
+- name: (Certificate Authority - Slurp) - Slurp CA Cert
+  slurp:
+    src: {{ sdr_pi_folder }}/pki/ca.crt
+  register: ca_cert
+
+- name: (Certificate Authority - Slurp) - Slurp CA Key
+  slurp:
+    src: {{ sdr_pi_folder }}/pki/private/ca.key
+  register: ca_key
+
+
+- name: (Certificate Authority - Slurp) - Set it as a fact so that it can be accessed afterwards
+  set_fact:
+    ca_cert_contents: "{{ ca_cert['content'] }}"
+    ca_key_contents: "{{ ca_key['content'] }}"

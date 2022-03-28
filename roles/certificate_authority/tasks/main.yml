@@ -1,0 +1,23 @@
+---
+- name: (Certificate Authority - Main) - Check host alive
+  ping:
+
+- name: (Certificate Authority - Main) - Capture eth0 MAC address
+   command: "cat /sys/class/net/eth0/address | tr -d ':'"
+   register: command_output
+
+- set_fact:
+    eth0_mac_address: "{{ command_output.stdout }}"
+
+- name: (Certificate Authority - Main) - Deploy EasyRSA3
+  import_tasks: deploy_easyrsa3.yml
+
+- name: (Certificate Authority - Main) - Initialise the CA
+  import_tasks: initialise_ca.yml
+
+- name: (Certificate Authority - Main) - Slurp CA for other roles to access
+  import_tasks: slurp_ca_file.yml
+
+- name: (Certificate Authority - Main) - Create wildcard Certificate for wildcard layer
+  import_tasks: create_cert_wildcard_host.yml
+

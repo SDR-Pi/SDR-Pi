@@ -1,0 +1,46 @@
+---
+- name: (Certificate Authority - Deploy) - Check to see if EasyRSA3 PKI has already been deployed    
+  stat: path={{ sdr_pi_folder }}/easyrsa3
+  register: easyrsa
+
+- name: (Certificate Authority - Deploy) - Install Easyrsa3 scripts
+  copy:
+    src: easyrsa3/
+    dest: {{ sdr_pi_folder }}/easyrsa3/
+    force: yes
+    owner: root
+    group: root
+    mode: '0600'  
+  when: not easyrsa.stat.exists        
+
+- name: (Certificate Authority - Deploy) - Set Permissions on easyrsa script
+  file:
+    path: {{ sdr_pi_folder }}/easyrsa3/easyrsa 
+    mode: "0755"
+
+- name: (Certificate Authority - Deploy) - Deploy customised variables
+  copy: 
+    dest: {{ sdr_pi_folder }}/easyrsa3/vars
+    mode: '0755'
+    owner: root
+    group: root
+    content: |
+      set_var EASYRSA                 "{{ sdr_pi_folder }}/easyrsa3/"
+      set_var EASYRSA_PKI             "{{ sdr_pi_folder }}/pki"
+      set_var EASYRSA_DN              "cn_only"
+      set_var EASYRSA_REQ_COUNTRY     "GB"
+      set_var EASYRSA_REQ_PROVINCE    ""
+      set_var EASYRSA_REQ_CITY        ""
+      set_var EASYRSA_REQ_ORG         "{{ certificate_authority_name }}-{{ eth0_mac_address}}"
+      set_var EASYRSA_REQ_EMAIL       "certificates@{{ certificate_authority_name }}-{{ eth0_mac_address}}"
+      set_var EASYRSA_REQ_OU          "{{ certificate_authority_name }}-{{ eth0_mac_address}}"
+      set_var EASYRSA_KEY_SIZE        2048
+      set_var EASYRSA_ALGO            rsa
+      set_var EASYRSA_CA_EXPIRE       7500
+      set_var EASYRSA_CERT_EXPIRE     3650
+      set_var EASYRSA_NS_SUPPORT      "no"
+      set_var EASYRSA_NS_COMMENT      "{{ certificate_authority_name }}-{{ eth0_mac_address}}"
+      set_var EASYRSA_EXT_DIR         "$EASYRSA/x509-types"
+      set_var EASYRSA_SSL_CONF        "$EASYRSA/openssl-easyrsa.cnf"
+      set_var EASYRSA_DIGEST          "sha256"  
+
