@@ -6,7 +6,9 @@ all:
     certificate_authority_key_file: ""
     wireless_country_code: "GB"
     wireless_accesspoint_stub_ssid: "SDR-pi"
+    # WPA Passwords must be between 8-63 characters
     wireless_accesspoint_password: "WiFi4-SDR-pi"
+    openwebrx_admin_password: "password"
     interface_wlan0_subnet: "192.168.0."
     interface_eth0_subnet: "192.168.1."
     interface_wlan0_ipaddress: "{{ interface_wlan0_subnet }}1"
