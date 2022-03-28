@@ -12,3 +12,19 @@
     pkg:
       - lsof
       - mlocate
+      - at
+
+- name: (Raspberry Pi - Packages) - Disable Bluetooth SystemD unit
+  become: yes
+  service: 
+    name: bluetooth
+    enabled: no
+    state: stopped
+
+
+- name: (Raspberry Pi - Packages) - Enable and start at daemon
+  become: yes
+  service: 
+    name: atd
+    enabled: yes
+    state: started

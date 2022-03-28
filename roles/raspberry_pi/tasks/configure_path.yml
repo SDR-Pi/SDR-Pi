@@ -1,0 +1,14 @@
+- name: (Raspberry Pi - Path) - Creates directory inc path
+  file:
+    path: /usr/sdr-pi/bin/
+    state: directory
+
+
+
+- name: (Raspberry Pi - Path) - Update PATH to include /usr/sdr-pi/bin/
+  template:
+   src: etc/profile.d/sdr-pi.sh.j2
+   dest: /etc/profile.d/sdr-pi.sh
+   owner: root
+   group: root
+   mode: '0755'

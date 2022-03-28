@@ -1,6 +1,10 @@
 - name: Check Host alive
   ping:
 
+- name: Configure Path
+  import_tasks: configure_path.yml
+
+
 - name: Configure Networking
   import_tasks: configure_network.yml
 
