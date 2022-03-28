@@ -1,3 +1,11 @@
+- name: (SoapySDR - udev) - Deploy script to bounce soapyremote-server
+  template:
+   src: usr/sdr-pi/bin/bounce-soapysever-remote.sh.j2
+   dest: /usr/sdr-pi/bin/bounce-soapysever-remote.sh
+   owner: root
+   group: root
+   mode: '0755'
+
 - name: (SoapySDR - udev) - Deploy udev rules
   template:
    src: etc/udev/rules.d/99-sdr-pi.rules.j2

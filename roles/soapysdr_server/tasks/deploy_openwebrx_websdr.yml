@@ -10,7 +10,7 @@
     state: present
     filename: openwebrx
 
-- name: (SoapySDR - OpenWebRx) - Set the password for the OpenWebRx admin user
+- name: (SoapySDR - OpenWebRx) - Do not prompt for password for the OpenWebRx admin user
   debconf: 
     name: iptables-persistent 
     question: openwebrx/admin_user_configured
