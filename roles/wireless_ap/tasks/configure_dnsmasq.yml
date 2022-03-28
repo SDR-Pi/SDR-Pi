@@ -1,1 +1,27 @@
 ---
+- name: (Wireless - DNSMasq) - Create dnsmasq Config Directory (/etc/dnsmasq.sdr)
+  file:
+    path: /etc/dnsmasq.sdr
+    state: directory
+
+- name: (Wireless - DNSMasq) - Create dnsmasq configuration for wlan0
+  template:
+   src: etc/dnsmasq.sdr/wlan0.j2
+   dest: /etc/dnsmasq.sdr/wlan0
+
+- name: (Wireless - DNSMasq) - Activate dnsmasq configuration for wlan0
+  ansible.builtin.file:
+    src: /etc/dnsmasq.sdr/wlan0
+    dest: /etc/dnsmasq.d/wlan0
+    owner: root
+    group: root
+    state: link
+    force: true
+
+
+- name: (Wireless - DNSMasq) | Make sure the dnsmasq service is unmasked, started, and enabled
+  systemd:
+    name: dnsmasq
+    state: started
+    enabled: yes
+    masked: no

@@ -1,0 +1,6 @@
+interface=wlan0
+dhcp-range={{ interface_wlan0_subnet }}11,{{ interface_wlan0_subnet }}50,255.255.255.0,24h
+expand-hosts
+domain={{ internal_domain }}
+dhcp-option=42,0.0.0.0
+address=/{{ internal_domain }}/{{ interface_wlan0_ipaddress }}
