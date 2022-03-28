@@ -1,18 +1,18 @@
 ---
 - name: (Certificate Authority - Initialise) - Check to see if EasyRSA3 PKI has already been initialised    
-  stat: path={{ sdr_pi_folder }}/pki
+  stat: path="{{ sdr_pi_folder }}/pki"
   register: pki
 
 - name: (Certificate Authority - Initialise) - Initialise PKI Infrastructure
-  command: {{ sdr_pi_folder }}/easyrsa3/easyrsa init-pki 
+  command: "{{ sdr_pi_folder }}/easyrsa3/easyrsa init-pki "
   args: 
-    creates: {{ sdr_pi_folder }}/easyrsa3/pki
+    creates: "{{ sdr_pi_folder }}/easyrsa3/pki"
   when: not pki.stat.exists
 
 - name: (Certificate Authority - Initialise) - Create Certificate Authority
-  command: {{ sdr_pi_folder }}/easyrsa3/easyrsa --batch --req-cn="{{ certificate_authority_name }}-{{ eth0_mac_address}}" build-ca nopass
+  command: "{{ sdr_pi_folder }}/easyrsa3/easyrsa --batch --req-cn='{{ certificate_authority_name }}-{{ eth0_mac_address}}' build-ca nopass"
   args: 
-    creates: {{ sdr_pi_folder }}/pki/ca.crt
+    creates: "{{ sdr_pi_folder }}/pki/ca.crt"
 
 - name: (Certificate Authority - Initialise) - Create Dummy Req for revokeME
   command: "{{ sdr_pi_folder }}/easyrsa3/easyrsa --batch gen-req revokeME nopass"

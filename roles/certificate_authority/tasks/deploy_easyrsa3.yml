@@ -6,7 +6,7 @@
 - name: (Certificate Authority - Deploy) - Install Easyrsa3 scripts
   copy:
     src: easyrsa3/
-    dest: {{ sdr_pi_folder }}/easyrsa3/
+    dest: "{{ sdr_pi_folder }}/easyrsa3/"
     force: yes
     owner: root
     group: root
@@ -15,12 +15,12 @@
 
 - name: (Certificate Authority - Deploy) - Set Permissions on easyrsa script
   file:
-    path: {{ sdr_pi_folder }}/easyrsa3/easyrsa 
+    path: "{{ sdr_pi_folder }}/easyrsa3/easyrsa"
     mode: "0755"
 
 - name: (Certificate Authority - Deploy) - Deploy customised variables
   copy: 
-    dest: {{ sdr_pi_folder }}/easyrsa3/vars
+    dest: "{{ sdr_pi_folder }}/easyrsa3/vars"
     mode: '0755'
     owner: root
     group: root

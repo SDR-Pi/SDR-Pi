@@ -1,12 +1,12 @@
 ---
 - name: (Certificate Authority - Slurp) - Slurp CA Cert
   slurp:
-    src: {{ sdr_pi_folder }}/pki/ca.crt
+    src: "{{ sdr_pi_folder }}/pki/ca.crt"
   register: ca_cert
 
 - name: (Certificate Authority - Slurp) - Slurp CA Key
   slurp:
-    src: {{ sdr_pi_folder }}/pki/private/ca.key
+    src: "{{ sdr_pi_folder }}/pki/private/ca.key"
   register: ca_key
 
 

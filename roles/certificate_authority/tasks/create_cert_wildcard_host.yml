@@ -1,6 +1,6 @@
 ---
 - name: (Certificate Authority - Wildcard) - Create Req for "wildcard"
-  command: {{ sdr_pi_folder }}/easyrsa3/easyrsa --batch --subject-alt-name="DNS:*.{{ internal_domain }}" --req-cn="{{ internal_domain }}" gen-req wildcard nopass
+  command: "{{ sdr_pi_folder }}/easyrsa3/easyrsa --batch --subject-alt-name='DNS:*.{{ internal_domain }}' --req-cn='{{ internal_domain }}' gen-req wildcard nopass"
   args: 
     creates: "{{ sdr_pi_folder }}/pki/reqs/wildcard.req"
 
@@ -11,12 +11,12 @@
 
 - name: (Certificate Authority - Wildcard) - Slurp "wildcard" Cert
   slurp:
-    src: {{ sdr_pi_folder }}/pki/issued/wildcard.crt
+    src: "{{ sdr_pi_folder }}/pki/issued/wildcard.crt"
   register: wildcard_cert
   
 - name: (Certificate Authority - Wildcard) - Slurp "wildcard" Key
   slurp:
-    src: {{ sdr_pi_folder }}/pki/private/wildcard.key
+    src: "{{ sdr_pi_folder }}/pki/private/wildcard.key"
   register: wildcard_key
   
 - name: (Certificate Authority - Wildcard) - Set SSL keys as facts so that they can be accessed afterwards

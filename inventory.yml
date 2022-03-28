@@ -2,7 +2,7 @@ all:
   vars:
     internal_domain: "sdr.radio"
     certificate_authority_name: "SDR-Pi"
-    certificate_authority_cert_file: "/etc/ssl/certs/ssl-cert-snakeoil.pem"
+    certificate_authority_cert_file: "/usr/sdr-pi/pki/ca.crt"
     certificate_authority_key_file: ""
     wireless_country_code: "GB"
     wireless_accesspoint_stub_ssid: "SDR-pi"
