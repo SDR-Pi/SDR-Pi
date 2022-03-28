@@ -14,6 +14,14 @@
 -A INPUT -p udp --dport 53 -j ACCEPT
 -A INPUT -p tcp --dport 53 -j ACCEPT
 
+# Allow DHCP
+-A INPUT -m state --state NEW -p tcp --dport 67:68 -j ACCEPT
+-A INPUT -m state --state NEW -p udp --dport 67:68 -j ACCEPT
+-A INPUT -m state --state NEW -p udp --dport 69 -j ACCEPT
+
+# Allow NTP
+-A INPUT  -p udp --dport 123 -j ACCEPT
+
 # Allow Avahi/Zeroconf
 -A INPUT -p udp --dport 5353 -j ACCEPT
 -A INPUT -p tcp --dport 5353 -j ACCEPT
