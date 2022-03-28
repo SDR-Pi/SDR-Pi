@@ -13,6 +13,8 @@
       - lsof
       - mlocate
       - at
+      - bind9-utils
+      - tcpdump
 
 - name: (Raspberry Pi - Packages) - Disable Bluetooth SystemD unit
   become: yes
