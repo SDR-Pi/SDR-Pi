@@ -3,8 +3,8 @@
   ping:
 
 - name: (Certificate Authority - Main) - Capture eth0 MAC address
-   command: "cat /sys/class/net/eth0/address | tr -d ':'"
-   register: command_output
+  command: "cat /sys/class/net/eth0/address | tr -d ':'"
+  register: command_output
 
 - set_fact:
     eth0_mac_address: "{{ command_output.stdout }}"
