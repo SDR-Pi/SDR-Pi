@@ -15,7 +15,7 @@
    dest: /etc/dnsmasq.sdr/wildcard
 
 - name: (Wireless - DNSMasq) - Activate dnsmasq configuration for wlan0
-  ansible.builtin.file:
+  file:
     src: /etc/dnsmasq.sdr/wlan0
     dest: /etc/dnsmasq.d/wlan0
     owner: root
@@ -24,7 +24,7 @@
     force: true
 
 - name: (Wireless - DNSMasq) - Activate dnsmasq configuration for wildcard
-  ansible.builtin.file:
+  file:
     src: /etc/dnsmasq.sdr/wildcard
     dest: /etc/dnsmasq.d/wildcard
     owner: root

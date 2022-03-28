@@ -12,7 +12,7 @@
    dest: /etc/network/interfaces.sdr/wlan0
 
 - name: (Wireless - Networking) - Activate Network configuration for wlan0
-  ansible.builtin.file:
+  file:
     src: /etc/network/interfaces.sdr/wlan0
     dest: /etc/network/interfaces.d/wlan0
     owner: root
@@ -31,7 +31,7 @@
    dest: /etc/network/interfaces.sdr/br0
 
 # - name: (Wireless - Networking) - Activate Network configuration for br0
-#   ansible.builtin.file:
+#   file:
 #     src: /etc/network/interfaces.sdr/br0
 #     dest: /etc/network/interfaces.d/br0
 #     owner: root
