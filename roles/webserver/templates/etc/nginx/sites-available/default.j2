@@ -41,8 +41,13 @@ server {
 	
 	include snippets/snakeoil.conf;
     
+	location = /websdr {
+		return 301 /websdr/;
+	}
+
     # Configure for websdr
     location /websdr/ {
+		#rewrite /websdr/(.*) /$1  break;
         proxy_pass http://127.0.0.1:8073/;
         proxy_http_version 1.1;
 		proxy_buffering off;
