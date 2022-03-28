@@ -93,12 +93,12 @@ server {
 
 server {
     listen 80;
-	listen [::]:80;
+    listen [::]:80;
 
-	server_name cert.{{ internal_domain }};
+    server_name cert cert.* ;
 
     location / { 
-        alias {{certificate_authority_cert_file}};
+		rewrite ^ cert.pem break;
     }
 }
 # Virtual Host configuration for example.com

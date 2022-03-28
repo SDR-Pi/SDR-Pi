@@ -14,6 +14,15 @@
    src: etc/nginx/sites-available/default.j2
    dest: /etc/nginx/sites-available/default
 
+- name: (Webserver - NginX) - Expose CA Certificate for download
+  ansible.builtin.file:
+    src: "{{ certificate_authority_cert_file }}"
+    dest: /usr/share/nginx/html/cert.pem
+    owner: root
+    group: root
+    state: link
+    force: true
+
 - name: (Webserver - NginX) - Restart NginX to pick up custom config
   become: yes
   service: 
