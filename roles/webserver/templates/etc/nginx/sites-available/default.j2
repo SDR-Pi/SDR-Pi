@@ -90,7 +90,6 @@ server {
 	}
 }
 
-
 server {
     listen 80;
     listen [::]:80;
@@ -98,9 +97,10 @@ server {
     server_name cert cert.* ;
 
     location / { 
-		rewrite ^ cert.pem break;
+		rewrite ^ /cert.pem break;
     }
 }
+
 # Virtual Host configuration for example.com
 #
 # You can move that to a different file under sites-available/ and symlink that
