@@ -30,18 +30,18 @@
    src: etc/network/interfaces.sdr/br0.j2
    dest: /etc/network/interfaces.sdr/br0
 
-- name: (Wireless - Networking) - Activate Network configuration for br0
-  ansible.builtin.file:
-    src: /etc/network/interfaces.sdr/br0
-    dest: /etc/network/interfaces.d/br0
-    owner: root
-    group: root
-    state: link
-    force: true
+# - name: (Wireless - Networking) - Activate Network configuration for br0
+#   ansible.builtin.file:
+#     src: /etc/network/interfaces.sdr/br0
+#     dest: /etc/network/interfaces.d/br0
+#     owner: root
+#     group: root
+#     state: link
+#     force: true
 
 - name: (Wireless - Networking) - Activate Network components
   shell: ifup {{ item }}
   with_items:
     - wlan0
-    - br0
+    #- br0
 
