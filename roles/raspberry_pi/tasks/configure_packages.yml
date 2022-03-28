@@ -14,7 +14,7 @@
       - mlocate
       - at
       - bind9-utils
-      - dnsutils
+      - bind9-dnsutils
       - tcpdump
 
 - name: (Raspberry Pi - Packages) - Disable Bluetooth SystemD unit
