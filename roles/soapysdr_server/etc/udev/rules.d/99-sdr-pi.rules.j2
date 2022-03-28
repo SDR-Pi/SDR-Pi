@@ -1,0 +1,149 @@
+#
+# Modified from: AirSpy
+# https://github.com/jopohl/urh/wiki/SDR-udev-rules
+#
+ATTR{idVendor}=="1d50", ATTR{idProduct}=="60a1", RUN+="systemctl restart soapyremote-server"
+
+#
+# Modified from: BladeRF
+# https://github.com/jopohl/urh/wiki/SDR-udev-rules
+#
+# Nuand bladeRF
+ATTR{idVendor}=="2cf0", ATTR{idProduct}=="5246", RUN+="systemctl restart soapyremote-server"
+# Nuand bladeRF, legacy VID/PID
+ATTR{idVendor}=="1d50", ATTR{idProduct}=="6066", RUN+="systemctl restart soapyremote-server"
+# Nuand bladeRF 2.0 micro
+ATTR{idVendor}=="2cf0", ATTR{idProduct}=="5250", RUN+="systemctl restart soapyremote-server"
+# Cypress FX3 Bootloader, used by bladeRF in recovery mode
+ATTR{idVendor}=="04b4", ATTR{idProduct}=="00f3", RUN+="systemctl restart soapyremote-server"
+
+#
+# Modified from: HackRF
+# https://github.com/jopohl/urh/wiki/SDR-udev-rules
+#
+ATTR{idVendor}=="1d50", ATTR{idProduct}=="604b", RUN+="systemctl restart soapyremote-server"
+ATTR{idVendor}=="1d50", ATTR{idProduct}=="6089", RUN+="systemctl restart soapyremote-server"
+ATTR{idVendor}=="1d50", ATTR{idProduct}=="cc15", RUN+="systemctl restart soapyremote-server"
+ATTR{idVendor}=="1fc9", ATTR{idProduct}=="000c", RUN+="systemctl restart soapyremote-server"
+
+#
+# Modified from: LimeSDR
+# https://github.com/jopohl/urh/wiki/SDR-udev-rules
+#
+SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="8613", RUN+="systemctl restart soapyremote-server"
+SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="00f1", RUN+="systemctl restart soapyremote-server"
+SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="601f", RUN+="systemctl restart soapyremote-server"
+SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="6108", RUN+="systemctl restart soapyremote-server"
+
+#
+# Modified from: LimeSDR
+# https://github.com/jopohl/urh/wiki/SDR-udev-rules
+#
+SUBSYSTEM=="usb", PROGRAM=="/bin/sh -c '/usr/bin/iio_info -s | grep %s{idVendor}:%s{idProduct}'", RESULT!="", RUN+="systemctl restart soapyremote-server"
+
+
+#
+# Modified from: RTL Udev Rules
+# https://github.com/osmocom/rtl-sdr/blob/master/rtl-sdr.rules
+#
+
+# original RTL2832U vid/pid (hama nano, for example)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="2832", RUN+="systemctl restart soapyremote-server"
+# RTL2832U OEM vid/pid, e.g. ezcap EzTV668 (E4000), Newsky TV28T (E4000/R820T) etc.
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="2838", RUN+="systemctl restart soapyremote-server"
+# DigitalNow Quad DVB-T PCI-E card (4x FC0012?)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0413", ATTRS{idProduct}=="6680", RUN+="systemctl restart soapyremote-server"
+# Leadtek WinFast DTV Dongle mini D (FC0012)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0413", ATTRS{idProduct}=="6f0f", RUN+="systemctl restart soapyremote-server"
+# Genius TVGo DVB-T03 USB dongle (Ver. B)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0458", ATTRS{idProduct}=="707f", RUN+="systemctl restart soapyremote-server"
+# Terratec Cinergy T Stick Black (rev 1) (FC0012)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ccd", ATTRS{idProduct}=="00a9", RUN+="systemctl restart soapyremote-server"
+# Terratec NOXON rev 1 (FC0013)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ccd", ATTRS{idProduct}=="00b3", RUN+="systemctl restart soapyremote-server"
+# Terratec Deutschlandradio DAB Stick (FC0013)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ccd", ATTRS{idProduct}=="00b4", RUN+="systemctl restart soapyremote-server"
+# Terratec NOXON DAB Stick - Radio Energy (FC0013)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ccd", ATTRS{idProduct}=="00b5", RUN+="systemctl restart soapyremote-server"
+# Terratec Media Broadcast DAB Stick (FC0013)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ccd", ATTRS{idProduct}=="00b7", RUN+="systemctl restart soapyremote-server"
+# Terratec BR DAB Stick (FC0013)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ccd", ATTRS{idProduct}=="00b8", RUN+="systemctl restart soapyremote-server"
+# Terratec WDR DAB Stick (FC0013)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ccd", ATTRS{idProduct}=="00b9", RUN+="systemctl restart soapyremote-server"
+# Terratec MuellerVerlag DAB Stick (FC0013)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ccd", ATTRS{idProduct}=="00c0", RUN+="systemctl restart soapyremote-server"
+# Terratec Fraunhofer DAB Stick (FC0013)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ccd", ATTRS{idProduct}=="00c6", RUN+="systemctl restart soapyremote-server"
+# Terratec Cinergy T Stick RC (Rev.3) (E4000)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ccd", ATTRS{idProduct}=="00d3", RUN+="systemctl restart soapyremote-server"
+# Terratec T Stick PLUS (E4000)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ccd", ATTRS{idProduct}=="00d7", RUN+="systemctl restart soapyremote-server"
+# Terratec NOXON rev 2 (E4000)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ccd", ATTRS{idProduct}=="00e0", RUN+="systemctl restart soapyremote-server"
+# PixelView PV-DT235U(RN) (FC0012)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1554", ATTRS{idProduct}=="5020", RUN+="systemctl restart soapyremote-server"
+# Astrometa DVB-T/DVB-T2 (R828D)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="15f4", ATTRS{idProduct}=="0131", RUN+="systemctl restart soapyremote-server"
+# HanfTek DAB+FM+DVB-T
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="15f4", ATTRS{idProduct}=="0133", RUN+="systemctl restart soapyremote-server"
+# Compro Videomate U620F (E4000)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="185b", ATTRS{idProduct}=="0620", RUN+="systemctl restart soapyremote-server"
+# Compro Videomate U650F (E4000)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="185b", ATTRS{idProduct}=="0650", RUN+="systemctl restart soapyremote-server"
+# Compro Videomate U680F (E4000)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="185b", ATTRS{idProduct}=="0680", RUN+="systemctl restart soapyremote-server"
+# GIGABYTE GT-U7300 (FC0012)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b80", ATTRS{idProduct}=="d393", RUN+="systemctl restart soapyremote-server"
+# DIKOM USB-DVBT HD
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b80", ATTRS{idProduct}=="d394", RUN+="systemctl restart soapyremote-server"
+# Peak 102569AGPK (FC0012)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b80", ATTRS{idProduct}=="d395", RUN+="systemctl restart soapyremote-server"
+# KWorld KW-UB450-T USB DVB-T Pico TV (TUA9001)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b80", ATTRS{idProduct}=="d397", RUN+="systemctl restart soapyremote-server"
+# Zaapa ZT-MINDVBZP (FC0012)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b80", ATTRS{idProduct}=="d398", RUN+="systemctl restart soapyremote-server"
+# SVEON STV20 DVB-T USB & FM (FC0012)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b80", ATTRS{idProduct}=="d39d", RUN+="systemctl restart soapyremote-server"
+# Twintech UT-40 (FC0013)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b80", ATTRS{idProduct}=="d3a4", RUN+="systemctl restart soapyremote-server"
+# ASUS U3100MINI_PLUS_V2 (FC0013)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b80", ATTRS{idProduct}=="d3a8", RUN+="systemctl restart soapyremote-server"
+# SVEON STV27 DVB-T USB & FM (FC0013)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b80", ATTRS{idProduct}=="d3af", RUN+="systemctl restart soapyremote-server"
+# SVEON STV21 DVB-T USB & FM
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b80", ATTRS{idProduct}=="d3b0", RUN+="systemctl restart soapyremote-server"
+# Dexatek DK DVB-T Dongle (Logilink VG0002A) (FC2580)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d19", ATTRS{idProduct}=="1101", RUN+="systemctl restart soapyremote-server"
+# Dexatek DK DVB-T Dongle (MSI DigiVox mini II V3.0)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d19", ATTRS{idProduct}=="1102", RUN+="systemctl restart soapyremote-server"
+# Dexatek DK 5217 DVB-T Dongle (FC2580)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d19", ATTRS{idProduct}=="1103", RUN+="systemctl restart soapyremote-server"
+# MSI DigiVox Micro HD (FC2580)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d19", ATTRS{idProduct}=="1104", RUN+="systemctl restart soapyremote-server"
+# Sweex DVB-T USB (FC0012)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1f4d", ATTRS{idProduct}=="a803", RUN+="systemctl restart soapyremote-server"
+# GTek T803 (FC0012)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1f4d", ATTRS{idProduct}=="b803", RUN+="systemctl restart soapyremote-server"
+# Lifeview LV5TDeluxe (FC0012)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1f4d", ATTRS{idProduct}=="c803", RUN+="systemctl restart soapyremote-server"
+# MyGica TD312 (FC0012)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1f4d", ATTRS{idProduct}=="d286", RUN+="systemctl restart soapyremote-server"
+# PROlectrix DV107669 (FC0012)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1f4d", ATTRS{idProduct}=="d803", RUN+="systemctl restart soapyremote-server"
+
+
+#
+# Modified from:
+# https://github.com/jopohl/urh/wiki/SDR-udev-rules
+#
+#USRP1
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="fffe", ATTRS{idProduct}=="0002", RUN+="systemctl restart soapyremote-server"
+#B100
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0002", RUN+="systemctl restart soapyremote-server"
+#B200
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0020", RUN+="systemctl restart soapyremote-server"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0021", RUN+="systemctl restart soapyremote-server"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0022", RUN+="systemctl restart soapyremote-server"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3923", ATTRS{idProduct}=="7813", RUN+="systemctl restart soapyremote-server"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3923", ATTRS{idProduct}=="7814", RUN+="systemctl restart soapyremote-server"

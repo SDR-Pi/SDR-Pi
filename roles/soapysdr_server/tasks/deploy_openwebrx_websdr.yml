@@ -10,6 +10,11 @@
     state: present
     filename: openwebrx
 
+# - name: (SoapySDR - OpenWebRx) - Set the password for the OpenWebRx admin user
+#   debconf: name=iptables-persistent question={{ item }} vtype=boolean value=true
+#   with_items:
+#   - iptables-persistent/autosave_v4
+
 - name: (SoapySDR - OpenWebRx) - Install OpenWebRx Packages
   apt:
     pkg:

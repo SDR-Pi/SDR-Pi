@@ -4,6 +4,7 @@
       - soapyremote-server
       - soapysdr-module-all
       - soapysdr-tools
+      - libiio-utils
 
 - name: (SoapySDR - Packages) - Install SDR Support Packages
   apt:
