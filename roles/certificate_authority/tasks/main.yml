@@ -21,3 +21,5 @@
 - name: (Certificate Authority - Main) - Create wildcard Certificate for wildcard layer
   import_tasks: create_cert_wildcard_host.yml
 
+- name: (Certificate Authority - Main) - Set File Permissions
+  import_tasks: set_file_permissions.yml

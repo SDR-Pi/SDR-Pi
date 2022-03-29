@@ -1,0 +1,14 @@
+- name: (Certificate Authority - Permissions) - Set permissions on {{ sdr_pi_folder }}/pki to allow NginX to share the ca cert
+  file:
+    path: "{{ sdr_pi_folder }}/pki"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: (Certificate Authority - Permissions) - Set permissions on {{ sdr_pi_folder }}/pki/ca.crt to allow NginX to share the ca cert
+  file:
+    path: "{{ sdr_pi_folder }}/pki/ca.crt"
+    owner: root
+    group: root
+    mode: '0644'
