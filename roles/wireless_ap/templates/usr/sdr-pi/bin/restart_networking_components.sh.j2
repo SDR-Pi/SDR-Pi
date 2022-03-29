@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sleep 5 
+ifconfig eth0 down
+ifconfig eth0 up
+systemctl restart dnsmasq

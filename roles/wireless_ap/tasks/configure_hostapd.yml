@@ -23,7 +23,7 @@
    mode: '0755'
 
 
-- name: (Wireless - HostAPD) | Make sure the service is unmasked, started, and enabled
+- name: (Wireless - HostAPD) - Make sure the service is unmasked, started, and enabled
   systemd:
     name: hostapd
     state: started

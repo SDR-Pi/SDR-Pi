@@ -38,7 +38,7 @@
     force: true
 
 
-- name: (Wireless - DNSMasq) | Make sure the dnsmasq service is unmasked, restarted, and enabled
+- name: (Wireless - DNSMasq) - Make sure the dnsmasq service is unmasked, restarted, and enabled
   systemd:
     name: dnsmasq
     state: restarted

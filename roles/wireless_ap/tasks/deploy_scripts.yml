@@ -1,1 +1,12 @@
 ---
+- name: (Wireless - HostAPD) - Deploy helper scripts
+  template:
+    src: usr/sdr-pi/bin/{{ item }}.j2
+    dest: "{{ sdr_pi_folder }}/bin/{{ item }}.sh"
+    owner: root
+    group: root
+    mode: '0755'
+  with_items:
+    - enable_wired_access.sh
+    - disable_wired_access.sh
+    - restart_networking_components.sh 
