@@ -14,6 +14,8 @@ all:
     interface_wlan0_ipaddress: "{{ interface_wlan0_subnet }}1"
     interface_eth0_ipaddress: "{{ interface_eth0_subnet }}1"
     sdr_pi_folder: "/usr/sdr-pi"
+    soapyremote_server_tcp_port: 55132
+    make_raspberry_pi_readonly: yes
 
   children:
     sdr_pis:
