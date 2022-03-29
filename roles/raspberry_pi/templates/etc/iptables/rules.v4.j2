@@ -38,7 +38,7 @@
 -A INPUT -p tcp --dport 1025:65535 -m set --match-set upnp src -j ACCEPT
 -A INPUT -p tcp --dport {{ soapyremote_server_tcp_port }} -j ACCEPT
 -A INPUT -p udp --dport 17500 -j ACCEPT
-
+-A INPUT -p udp --dport 1900 -j ACCEPT
 
 -A INPUT -j LOG --log-prefix "IP4Tables In: "
 -A INPUT -j DROP
