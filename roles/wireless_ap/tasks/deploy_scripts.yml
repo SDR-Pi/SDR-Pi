@@ -2,7 +2,7 @@
 - name: (Wireless - HostAPD) - Deploy helper scripts
   template:
     src: usr/sdr-pi/bin/{{ item }}.j2
-    dest: "{{ sdr_pi_folder }}/bin/{{ item }}.sh"
+    dest: "{{ sdr_pi_folder }}/bin/{{ item }}"
     owner: root
     group: root
     mode: '0755'

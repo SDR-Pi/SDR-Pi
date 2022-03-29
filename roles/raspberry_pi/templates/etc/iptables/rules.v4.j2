@@ -40,13 +40,13 @@
 -A INPUT -p udp --dport 17500 -j ACCEPT
 
 
--A INPUT -j LOG --log-prefix "IP4Tables: "
+-A INPUT -j LOG --log-prefix "IP4Tables In: "
 -A INPUT -j DROP
 
 :FORWARD ACCEPT [0:0]
 -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 -A FORWARD -p icmp -m icmp --icmp-type 8 -j ACCEPT
-#-A FORWARD -j LOG --log-prefix "IP4Tables: "
+#-A FORWARD -j LOG --log-prefix "IP4Tables FWD: "
 #-A FORWARD -j DROP
 
 :OUTPUT ACCEPT [0:0]

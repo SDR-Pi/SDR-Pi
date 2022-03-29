@@ -4,3 +4,5 @@ expand-hosts
 domain={{ internal_domain }}
 dhcp-option=42,0.0.0.0
 
+# Wild card only if in wired config
+address=/{{ internal_domain }}/{{ interface_eth0_ipaddress }}

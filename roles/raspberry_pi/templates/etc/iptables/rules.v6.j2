@@ -39,7 +39,7 @@
 -A INPUT -p tcp --dport {{ soapyremote_server_tcp_port }} -j ACCEPT
 -A INPUT -p udp --dport 17500 -j ACCEPT
 
--A INPUT -j LOG --log-prefix "IP6Tables: "
+-A INPUT -j LOG --log-prefix "IP6Tables In: "
 -A INPUT -j DROP
 :FORWARD ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
