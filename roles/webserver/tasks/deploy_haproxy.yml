@@ -35,5 +35,5 @@
   become: yes
   service: 
     name: haproxy
-    enabled: yes 
-    state: restarted
+    enabled: no 
+    state: stopped
