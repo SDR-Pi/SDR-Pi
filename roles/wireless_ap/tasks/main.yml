@@ -13,3 +13,6 @@
 
 - name: (Wireless - Main) - Configure dnsmasq
   import_tasks: configure_dnsmasq.yml
+
+- name: (Wireless - Main) - Deploy Helper Scripts
+  import_tasks: deploy_scripts.yml

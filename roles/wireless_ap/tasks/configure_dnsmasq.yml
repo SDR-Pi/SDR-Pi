@@ -9,6 +9,11 @@
    src: etc/dnsmasq.sdr/wlan0.j2
    dest: /etc/dnsmasq.sdr/wlan0
 
+- name: (Wireless - DNSMasq) - Create dnsmasq configuration for eth0
+  template:
+   src: etc/dnsmasq.sdr/eth0.j2
+   dest: /etc/dnsmasq.sdr/eth0
+
 - name: (Wireless - DNSMasq) - Create dnsmasq configuration for wildcard
   template:
    src: etc/dnsmasq.sdr/wildcard.j2
