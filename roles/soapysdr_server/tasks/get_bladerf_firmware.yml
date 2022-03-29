@@ -1,0 +1,10 @@
+---
+- name: (SoapySDR - BladeRF) - Check to see if BladeRF firmware is present 
+  stat: path=/usr/share/Nuand/bladeRF/bladeRF_fw.img
+  register: bladerf_fw
+
+- name: (Certificate Authority - BladeRF) - Initialise PKI Infrastructure
+  command: "/usr/bin/bladeRF-install-firmware"
+  args: 
+    creates: /usr/share/Nuand/bladeRF/bladeRF_fw.img
+  when: not bladerf_fw.stat.exists
