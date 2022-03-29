@@ -1,0 +1,4 @@
+- name: (Raspberry Pi - Prefer IPv4) - Prefer to use IPv4 to IPv6
+  template:
+   src: etc/gai.conf.j2
+   dest: /etc/gai.conf

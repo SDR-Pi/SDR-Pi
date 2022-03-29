@@ -10,5 +10,8 @@
 - name: Configure Firewall
   import_tasks: configure_firewall.yml
 
+- name: Configure to prefer IPv4 to IPv6
+  import_tasks: configure_prefer_ipv4.yml
+
 - name: Install Packages
   import_tasks: configure_packages.yml  

@@ -4,6 +4,10 @@
   with_items:
   - iptables-persistent/autosave_v4
   - iptables-persistent/autosave_v6
+
+- name: (Raspberry Pi - Firewall) - Safe the ipset information on netfilter reload
+  debconf: name=ipset-persistent question={{ item }} vtype=boolean value=true
+  with_items:
   - ipset-persistent/autosave
 
 - name: (Raspberry Pi - Firewall) - Install firewall packages
