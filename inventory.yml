@@ -19,4 +19,4 @@ all:
     sdr_pis:
       hosts:
         sdr_pi:
-          ansible_host: sdr-pi
+          ansible_host: sdr-pi.local
