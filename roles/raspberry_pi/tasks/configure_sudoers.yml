@@ -1,0 +1,4 @@
+- name: (Raspberry Pi - Sudoers) - Configure /etc/sudoers to include {{ sdr_pi_folder }}/bin
+  template:
+   src: etc/sudoers.j2
+   dest: /etc/sudoers

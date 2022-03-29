@@ -32,11 +32,11 @@
 
 # Allow SoapySDR
 # Pseudo port-knock with a 300 second (5 min) cache on the ipset based on talking to the control port.
--A INPUT -p tcp -m tcp --dport 55132 -j SET --add-set upnpv6 src --exist
+-A INPUT -p tcp -m tcp --dport {{ soapyremote_server_tcp_port }} -j SET --add-set upnpv6 src --exist
 # Limited to "high" ports
 -A INPUT -p udp --dport 1025:65535 -m set --match-set upnpv6 src -j ACCEPT
 -A INPUT -p tcp --dport 1025:65535 -m set --match-set upnpv6 src -j ACCEPT
--A INPUT -p tcp --dport 55132 -j ACCEPT
+-A INPUT -p tcp --dport {{ soapyremote_server_tcp_port }} -j ACCEPT
 -A INPUT -p udp --dport 17500 -j ACCEPT
 
 -A INPUT -j LOG --log-prefix "IP6Tables: "

@@ -15,3 +15,6 @@
 
 - name: Install Packages
   import_tasks: configure_packages.yml  
+
+- name: Configure SuDo
+  import_tasks: configure_sudoers.yml  
