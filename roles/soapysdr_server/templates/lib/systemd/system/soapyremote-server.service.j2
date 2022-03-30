@@ -1,0 +1,18 @@
+[Unit]
+Description=SoapyRemote server
+After=network.target
+# StartLimitBurst=10
+# StartLimitIntervalSec=30
+
+[Service]
+EnvironmentFile=/etc/default/soapyremote-server
+PassEnvironment=UHD_IMAGES_DIR
+
+ExecStart=/usr/bin/SoapySDRServer --bind=[::]:{{ soapyremote_server_tcp_port }}
+KillMode=process
+Restart=on-abnormal
+#Restart=always
+
+[Install]
+WantedBy=multi-user.target
+Alias=SoapySDRServer.service

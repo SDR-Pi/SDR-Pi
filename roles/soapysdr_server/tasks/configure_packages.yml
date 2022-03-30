@@ -31,4 +31,22 @@
       - gqrx-sdr
       - inspectrum
       - quisk
-      #- hamradio-sdr
+      - hamradio-sdr
+
+- name: (SoapySDR - Packages) - Deploy Environment file for soapyremote-server
+  template:
+   src: etc/default/soapyremote-server.j2
+   dest: /etc/default/soapyremote-server
+
+- name: (SoapySDR - Packages) - Deploy custom SystemD unit for soapyremote-server
+  template:
+   src: lib/systemd/system/soapyremote-server.service.j2
+   dest: /lib/systemd/system/soapyremote-server.service
+
+- name: (SoapySDR - Packages) - Reload and restart soapyremote-server
+  systemd:
+    daemon_reload: yes
+    name: soapyremote-server
+    enabled: yes
+    state: restarted
+
