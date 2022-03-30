@@ -27,6 +27,7 @@
 			"dnsutils",
 			"DVBT",
 			"easyrsa",
+			"Ettus",
 			"ezcap",
 			"Gica",
 			"gnss",

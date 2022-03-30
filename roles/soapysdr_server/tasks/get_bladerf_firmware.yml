@@ -3,7 +3,7 @@
   stat: path=/usr/share/Nuand/bladeRF/bladeRF_fw.img
   register: bladerf_fw
 
-- name: (Certificate Authority - BladeRF) - Initialise PKI Infrastructure
+- name: (SoapySDR - BladeRF) - Download Firmware
   command: "/usr/bin/bladeRF-install-firmware"
   args: 
     creates: /usr/share/Nuand/bladeRF/bladeRF_fw.img
