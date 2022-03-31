@@ -1,10 +1,18 @@
 ---
+- name: (SoapySDR - Ettus UHD) - Set environment variable to point to Ettus image location
+  template:
+   src: etc/profile.d/ettus.sh.j2
+   dest: /etc/profile.d/ettus.sh
+   owner: root
+   group: root
+   mode: '0755'
+
 - name: (SoapySDR - Ettus UHD) - Check to see if BladeRF firmware is present 
   stat: path=/usr/share/uhd/images/inventory.json
-  register: bladerf_fw
+  register: ettus_fw
 
 - name: (SoapySDR - Ettus UHD) - Download Firmware
   command: "/usr/bin/uhd_images_downloader"
   args: 
     creates: /usr/share/uhd/images/inventory.json
-  when: not bladerf_fw.stat.exists
+  when: not ettus_fw.stat.exists

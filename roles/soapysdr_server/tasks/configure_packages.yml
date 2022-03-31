@@ -23,6 +23,7 @@
       - rtl-sdr
       - qthid-fcd-controller
       - uhd-soapysdr
+      - soapysdr-module-uhd
 
 - name: (SoapySDR - Packages) - Install Helpful Packages
   apt:
