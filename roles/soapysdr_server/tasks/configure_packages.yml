@@ -31,7 +31,7 @@
       - gqrx-sdr
       - inspectrum
       - quisk
-      - hamradio-sdr
+      #- hamradio-sdr
 
 - name: (SoapySDR - Packages) - Deploy Environment file for soapyremote-server
   template:

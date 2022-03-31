@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenWebRX WebSDR receiver
+PartOf=soapyremote-server.service
+
+[Service]
+Type=simple
+User=openwebrx
+Group=openwebrx
+ExecStart=/usr/bin/openwebrx
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

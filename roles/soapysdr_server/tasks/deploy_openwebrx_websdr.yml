@@ -6,16 +6,22 @@
 
 - name: (SoapySDR - OpenWebRx) - Import Apt-Repo
   apt_repository:
+    repo: deb https://repo.openwebrx.de/debian/ bullseye main
+    state: present
+    filename: openwebrx
+
+- name: (SoapySDR - OpenWebRx) - Import Apt-Repo
+  apt_repository:
     repo: deb https://repo.openwebrx.de/debian/ experimental main
     state: present
     filename: openwebrx
 
 - name: (SoapySDR - OpenWebRx) - Do not prompt for password for the OpenWebRx admin user
   debconf: 
-    name: iptables-persistent 
-    question: openwebrx/admin_user_configured
-    vtype: boolean 
-    value: true
+    name: openwebrx 
+    question: openwebrx/admin_user_password
+    vtype: string 
+    value: "{{ openwebrx_admin_password }}"
 
 - name: (SoapySDR - OpenWebRx) - Install OpenWebRx Packages
   apt:
@@ -23,3 +29,20 @@
       - openwebrx
       - soapy-connector
     update_cache: yes
+
+- name: (SoapySDR - OpenWebRx) - Deploy custom SystemD unit for openwebrx
+  template:
+   src: lib/systemd/system/openwebrx.service.j2
+   dest: /lib/systemd/system/openwebrx.service
+
+- name: (SoapySDR - OpenWebRx) - Deploy custom settings file for openwebrx
+  template:
+   src: var/lib/openwebrx/settings.json.j2
+   dest: /var/lib/openwebrx/settings.json
+
+- name: (SoapySDR - OpenWebRx) - Reload and restart openwebrx
+  systemd:
+    daemon_reload: yes
+    name: openwebrx
+    enabled: yes
+    state: restarted

@@ -1,6 +1,6 @@
 ---
 - name: (Certificate Authority - Wildcard) - Create Req for "wildcard"
-  command: "{{ sdr_pi_folder }}/easyrsa3/easyrsa --batch --subject-alt-name=\"DNS:*.{{ internal_domain }}\" --req-cn='*.{{ internal_domain }}' gen-req wildcard nopass"
+  command: "{{ sdr_pi_folder }}/easyrsa3/easyrsa --batch --subject-alt-name=\"DNS:*.{{ internal_domain }}\" --req-cn='{{ internal_domain }}' gen-req wildcard nopass"
   args: 
     creates: "{{ sdr_pi_folder }}/pki/reqs/wildcard.req"
 
