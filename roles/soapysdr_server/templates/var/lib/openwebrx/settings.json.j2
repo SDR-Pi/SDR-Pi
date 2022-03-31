@@ -4,129 +4,27 @@
         "rtlsdr": {
             "name": "RTL-SDR USB Stick",
             "type": "rtl_sdr",
-            "profiles": {
-                "70cm": {
-                    "name": "70cm Repeaters",
-                    "center_freq": 438800000,
-                    "rf_gain": 29,
-                    "samp_rate": 2400000,
-                    "start_freq": 439275000,
-                    "start_mod": "nfm"
-                },
-                "2m": {
-                    "name": "2m",
-                    "center_freq": 145000000,
-                    "rf_gain": 29,
-                    "samp_rate": 2048000,
-                    "start_freq": 145725000,
-                    "start_mod": "nfm"
-                }
-            },
+{% include "templates/var/lib/openwebrx/profiles.json.j2" ignore missing %}       
             "enabled": false
         },
         "airspy": {
             "name": "Airspy HF+",
             "type": "airspyhf",
             "rf_gain": "auto",
-            "profiles": {
-                "20m": {
-                    "name": "20m",
-                    "center_freq": 14150000,
-                    "samp_rate": 384000,
-                    "start_freq": 14070000,
-                    "start_mod": "usb"
-                },
-                "30m": {
-                    "name": "30m",
-                    "center_freq": 10125000,
-                    "samp_rate": 192000,
-                    "start_freq": 10142000,
-                    "start_mod": "usb"
-                },
-                "40m": {
-                    "name": "40m",
-                    "center_freq": 7100000,
-                    "samp_rate": 256000,
-                    "start_freq": 7070000,
-                    "start_mod": "lsb"
-                },
-                "80m": {
-                    "name": "80m",
-                    "center_freq": 3650000,
-                    "samp_rate": 384000,
-                    "start_freq": 3570000,
-                    "start_mod": "lsb"
-                },
-                "49m": {
-                    "name": "49m Broadcast",
-                    "center_freq": 6050000,
-                    "samp_rate": 384000,
-                    "start_freq": 6070000,
-                    "start_mod": "am"
-                }
-            },
+{% include "templates/var/lib/openwebrx/profiles.json.j2" ignore missing %}      
             "enabled": false
         },
         "sdrplay": {
             "name": "SDRPlay RSP2",
             "type": "sdrplay",
             "antenna": "Antenna A",
-            "profiles": {
-                "20m": {
-                    "name": "20m",
-                    "center_freq": 14150000,
-                    "rf_gain": 0,
-                    "samp_rate": 500000,
-                    "start_freq": 14070000,
-                    "start_mod": "usb"
-                },
-                "30m": {
-                    "name": "30m",
-                    "center_freq": 10125000,
-                    "rf_gain": 0,
-                    "samp_rate": 250000,
-                    "start_freq": 10142000,
-                    "start_mod": "usb"
-                },
-                "40m": {
-                    "name": "40m",
-                    "center_freq": 7100000,
-                    "rf_gain": 0,
-                    "samp_rate": 500000,
-                    "start_freq": 7070000,
-                    "start_mod": "lsb"
-                },
-                "80m": {
-                    "name": "80m",
-                    "center_freq": 3650000,
-                    "rf_gain": 0,
-                    "samp_rate": 500000,
-                    "start_freq": 3570000,
-                    "start_mod": "lsb"
-                },
-                "49m": {
-                    "name": "49m Broadcast",
-                    "center_freq": 6000000,
-                    "rf_gain": 0,
-                    "samp_rate": 500000,
-                    "start_freq": 6070000,
-                    "start_mod": "am"
-                }
-            },
+{% include "templates/var/lib/openwebrx/profiles.json.j2" ignore missing %}      
             "enabled": false
         },
-        "5011af12-de98-4295-b0ec-19a2b01f2355": {
+        "soapy_bladerf": {
             "name": "SoapySDR-BladeRF",
             "type": "soapy_remote",
-            "profiles": {
-                "d6c5caa3-5bb2-43f7-bdc8-30de6454998a": {
-                    "name": "2m",
-                    "center_freq": 102700000,
-                    "samp_rate": 2000000,
-                    "start_freq": 102700000,
-                    "start_mod": "nfm"
-                }
-            },
+{% include "templates/var/lib/openwebrx/profiles.json.j2" ignore missing %}            
             "remote": "tcp://127.0.0.1:55132",
             "remote_driver": "bladerf",
             "always-on": false,
@@ -134,22 +32,23 @@
             "ppm": 0,
             "services": false
         },
-        "36a31d14-319e-481f-93c2-b2db40a0847e": {
+        "soapy_hackrf": {
             "name": "SoapySDR-HackRF",
             "type": "soapy_remote",
-            "profiles": {
-                "a294685c-40c4-47ab-a47e-33bc32333dd3": {
-                    "name": "2m",
-                    "center_freq": 102000000,
-                    "samp_rate": 2000000,
-                    "start_freq": 102000000,
-                    "start_mod": "nfm"
-                }
-            },
+{% include "templates/var/lib/openwebrx/profiles.json.j2" ignore missing %}      
             "rf_gain": "auto",
             "ppm": 0,
             "remote": "tcp://127.0.0.1:55132",
             "remote_driver": "hackrf"
+        },
+        "soapy_rtlsdr": {
+            "name": "SoapySDR-RTL-SDR",
+            "type": "soapy_remote",
+{% include "templates/var/lib/openwebrx/profiles.json.j2" ignore missing %}      
+            "rf_gain": "20.0",
+            "ppm": 0,
+            "remote": "tcp://127.0.0.1:55132",
+            "remote_driver": "rtlsdr"
         }
     }
 }
