@@ -12,3 +12,6 @@
 
 - name: (SoapySDR) Get BladeRF Firmware
   import_tasks: get_bladerf_firmware.yml
+
+- name: (SoapySDR) Get Ettus/UHD Firmware
+  import_tasks: get_uhd_firmware.yml
