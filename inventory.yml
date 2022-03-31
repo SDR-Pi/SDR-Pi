@@ -4,17 +4,25 @@ all:
     certificate_authority_name: "SDR-Pi"
     certificate_authority_cert_file: "/usr/sdr-pi/pki/ca.crt"
     certificate_authority_key_file: ""
+
+    # WiFi Access point configuration
     wireless_country_code: "GB"
     wireless_accesspoint_stub_ssid: "SDR-pi"
     # WPA Passwords must be between 8-63 characters
     wireless_accesspoint_password: "WiFi4-SDR-pi"
-    openwebrx_admin_password: "password"
     interface_wlan0_subnet: "192.168.0."
     interface_eth0_subnet: "192.168.1."
     interface_wlan0_ipaddress: "{{ interface_wlan0_subnet }}1"
     interface_eth0_ipaddress: "{{ interface_eth0_subnet }}1"
+
+    # Admin users password to administer OpenWebRX
+    openwebrx_admin_password: "password2"
+
     sdr_pi_folder: "/usr/sdr-pi"
     soapyremote_server_tcp_port: 55132
+
+    # Making Pi readonly should protect from power failure, 
+    # However that is at the expense of configure ability.
     make_raspberry_pi_readonly: yes
 
   children:
