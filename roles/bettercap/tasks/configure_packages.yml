@@ -7,3 +7,14 @@
       - libpcap-dev
       - libusb-1.0-0-dev
       - libnetfilter-queue-dev
+  async: 1000
+  poll: 0
+  register: bettercap_dependencies_install
+
+- name: (Bettercap - Packages) - Check on install progress
+  async_status:
+    jid: "{{ bettercap_dependencies_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10

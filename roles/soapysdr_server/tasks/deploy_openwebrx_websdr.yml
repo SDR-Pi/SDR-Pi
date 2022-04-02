@@ -29,9 +29,9 @@
       - openwebrx
       - soapy-connector
     update_cache: yes
-    async: 1000
-    poll: 0
-    register: openwebrx_install
+  async: 1000
+  poll: 0
+  register: openwebrx_install
 
 - name: (SoapySDR - OpenWebRx) - Check on install progress
   async_status:

@@ -6,9 +6,9 @@
   apt:
     update_cache: yes
     upgrade: full
-    async: 1000
-    poll: 0
-    register: package_update
+  async: 1000
+  poll: 0
+  register: package_update
 
 - name: (Raspberry Pi - Packages) - Check on install progress
   async_status:
@@ -28,9 +28,9 @@
       - bind9-dnsutils
       - tcpdump
       - python3-passlib 
-    async: 1000
-    poll: 0
-    register: package_helpful
+  async: 1000
+  poll: 0
+  register: package_helpful
 
 - name: (Raspberry Pi - Packages) - Check on install of helpful packages
   async_status:

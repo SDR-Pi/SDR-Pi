@@ -5,9 +5,9 @@
       - soapysdr-module-all
       - soapysdr-tools
       - libiio-utils
-    async: 1000
-    poll: 0
-    register: soapy_install
+  async: 1000
+  poll: 0
+  register: soapy_install
 
 - name: (SoapySDR - Packages) - Check on install progress
   async_status:
@@ -35,9 +35,10 @@
       - qthid-fcd-controller
       - uhd-soapysdr
       - soapysdr-module-uhd
-    async: 1000
-    poll: 0
-    register: support_install
+      - uhd-host
+  async: 1000
+  poll: 0
+  register: support_install
 
 - name: (SoapySDR - Packages) - Check on support package install progress
   async_status:
@@ -55,9 +56,9 @@
       - inspectrum
       - quisk
       #- hamradio-sdr
-    async: 1000
-    poll: 0
-    register: helpful_install
+  async: 1000
+  poll: 0
+  register: helpful_install
 
 - name: (SoapySDR - Packages) - Check on helpful package install progress
   async_status:
