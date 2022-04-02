@@ -4,9 +4,33 @@
     pkg:
       - apache2
       - apache2-doc
+      - apache2-utils
       - php-pear
       - libapache2-mod-php7.4
     update_cache: yes
+
+- name: (Webserver - Apache) - DavLock folders
+  file:
+    path: "{{ sdr_pi_folder }}/{{item}}/"
+    state: directory
+    owner: www-data
+    group: www-data
+  with_items:
+    - DavLock
+    - webdav
+
+- name: (Webserver - Apache) - Create and propagate htdigest file for authentication
+  template:
+    src: etc/apache2/htdigest.j2
+    dest: "{{ sdr_pi_folder }}/DavLock//users.password"
+    owner: root
+    group: www-data
+    mode: "0640"
+
+- name: (Webserver - Apache) - Deploy Apache Security config
+  template:
+    src: etc/apache2/conf-available/security.conf.j2
+    dest: /etc/apache2/conf-available/security.conf
 
 - name: (Webserver - Apache) - Deploy Apache Port config
   template:
@@ -18,9 +42,24 @@
     src: etc/apache2/sites-available/000-default.conf.j2
     dest: /etc/apache2/sites-available/000-default.conf
 
+- name: (Webserver - Apache) - Enable Apache WebDAV modules
+  apache2_module:
+    state: present
+    name: "{{item}}"
+  with_items:
+    - dav
+    - dav_fs
+    - auth_digest
+
 - name: (Webserver - Apache) - restart Apache web server
   become: yes
   service: 
     name: apache2
     enabled: yes 
     state: restarted
+
+- name: (Webserver - Apache) - Deploy WebDav content
+  debug:
+    msg: "GIT {{ sdr_pi_admin_webdav_git_repo }}"
+  when: (sdr_pi_admin_webdav_git_repo is defined) and (sdr_pi_admin_webdav_git_repo|length > 0)
+

@@ -1,0 +1,3 @@
+{% for user in sdr_pi_htdigest %}
+{{ user.name }}:{{ user.realm }}:{{ user.password | hash('md5')  }}
+{% endfor %}
