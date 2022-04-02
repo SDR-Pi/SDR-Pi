@@ -42,6 +42,11 @@
     src: etc/apache2/sites-available/000-default.conf.j2
     dest: /etc/apache2/sites-available/000-default.conf
 
+- name: (Webserver - Apache) - Deploy Apache Landing Page (derived from template)
+  template:
+    src: var/www/html/index.html.j2
+    dest: /var/www/html/index.html
+
 - name: (Webserver - Apache) - Enable Apache WebDAV modules
   apache2_module:
     state: present

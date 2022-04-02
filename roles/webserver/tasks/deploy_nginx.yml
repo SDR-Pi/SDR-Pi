@@ -19,6 +19,11 @@
    src: etc/nginx/sites-available/default.j2
    dest: /etc/nginx/sites-available/default
 
+- name: (Webserver - NginX) - Remove Default HTML page
+  file:
+    path: "/var/www/html/index.nginx-debian.html"
+    state: absent
+
 - name: (Webserver - NginX) - Expose CA Certificate for download
   ansible.builtin.file:
     src: "{{ certificate_authority_cert_file }}"
