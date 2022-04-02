@@ -51,62 +51,100 @@ server {
 	}
 
 	location = /login {
-		return 301 /websdr/login?ref=settings;
+ 		return 301 /websdr/login?ref=settings;
 	}
 
-    # Configure for websdr
-    location /websdr/ {
+	# Configure for websdr
+	location /websdr/ {
 		rewrite /websdr/(.*) /$1  break;
-        proxy_pass http://127.0.0.1:8073/;
-        proxy_http_version 1.1;
+		proxy_pass http://127.0.0.1:8073/;
+		proxy_http_version 1.1;
 		proxy_buffering off;
 
 		# required for websockets
 		proxy_set_header Upgrade $http_upgrade;
 		proxy_set_header Connection $http_connection;
 
-        # Forward client connect to back end proxy.
-        proxy_set_header        Host            $host;
-        proxy_set_header        X-Real-IP       $remote_addr;
-        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header        X-Forwarded-Proto $scheme;
+		# Forward client connect to back end proxy.
+		proxy_set_header        Host            $host;
+		proxy_set_header        X-Real-IP       $remote_addr;
+		proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header        X-Forwarded-Proto $scheme;
 
-        # client_max_body_size 0;
-        # proxy_connect_timeout  3600s;
-        # proxy_read_timeout  3600s;
-        # proxy_send_timeout  3600s;
-        # send_timeout  3600s;
-    }
+		# client_max_body_size 0;
+		# proxy_connect_timeout  3600s;
+		# proxy_read_timeout  3600s;
+		# proxy_send_timeout  3600s;
+		# send_timeout  3600s;
+	}
 
 	location = /bettercap {
 		return 301 /bettercap/;
 	}
 
 	# Configure for bettercap
-    location /bettercap/ {
+	location /bettercap/ {
 		rewrite /bettercap/(.*) /$1  break;
-        proxy_pass https://127.0.0.1:{{ bettercap_https_server_port }}/;
-        proxy_http_version 1.1;
+		proxy_pass https://{{ bettercap_https_server_address }}:{{ bettercap_https_server_port }}/;
+		proxy_http_version 1.1;
 		proxy_buffering off;
 
 		# required for websockets
 		proxy_set_header Upgrade $http_upgrade;
 		proxy_set_header Connection $http_connection;
 
-        # Forward client connect to back end proxy.
-        proxy_set_header        Host            $host;
-        proxy_set_header        X-Real-IP       $remote_addr;
-        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header        X-Forwarded-Proto $scheme;
+		# Forward client connect to back end proxy.
+		proxy_set_header        Host            $host;
+		proxy_set_header        X-Real-IP       $remote_addr;
+		proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header        X-Forwarded-Proto $scheme;
 
-        # client_max_body_size 0;
-        # proxy_connect_timeout  3600s;
-        # proxy_read_timeout  3600s;
-        # proxy_send_timeout  3600s;
-        # send_timeout  3600s;
-    }
+		# client_max_body_size 0;
+		# proxy_connect_timeout  3600s;
+		# proxy_read_timeout  3600s;
+		# proxy_send_timeout  3600s;
+		# send_timeout  3600s;
+	}
 
-    # Default to Apache on http-alt
+	location = /api {
+		return 301 /api/;
+	}
+
+	# Configure for bettercap api
+	location /api/ {
+		rewrite /api/(.*) /$1  break;
+		proxy_pass https://127.0.0.1:{{ bettercap_api_rest_port }}/;
+		proxy_http_version 1.1;
+		proxy_buffering off;
+
+		# Bypass CORS
+		proxy_set_header Origin https://127.0.0.1:{{ bettercap_api_rest_port }};
+		proxy_hide_header Access-Control-Allow-Origin;
+		
+		add_header 'Access-Control-Allow-Origin' "$http_origin" always;
+  		add_header 'X-Frame-Options' "ALLOW FROM $http_origin" always;
+  		add_header 'Access-Control-Allow-Credentials' 'true' always;
+  		add_header 'Vary' 'Origin' always;
+  		#add_header 'Access-Control-Allow-Methods' 'GET,POST,OPTIONS,PUT,DELETE,PATCH';
+
+		# required for websockets
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection $http_connection;
+
+		# Forward client connect to back end proxy.
+		proxy_set_header        Host            $host;
+		proxy_set_header        X-Real-IP       $remote_addr;
+		proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header        X-Forwarded-Proto $scheme;
+
+		# client_max_body_size 0;
+		# proxy_connect_timeout  3600s;
+		# proxy_read_timeout  3600s;
+		# proxy_send_timeout  3600s;
+		# send_timeout  3600s;
+	}
+
+	# Default to Apache on http-alt
 	set $upstream 127.0.0.1:8080;
 
 	location / {
@@ -118,12 +156,11 @@ server {
 		proxy_set_header Upgrade $http_upgrade;
 		proxy_set_header Connection $http_connection;
 
-        # Forward client connect to back end proxy.
-        proxy_set_header        Host            $host;
-        proxy_set_header        X-Real-IP       $remote_addr;
-        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header        X-Forwarded-Proto $scheme;
-
+		# Forward client connect to back end proxy.
+		proxy_set_header        Host            $host;
+		proxy_set_header        X-Real-IP       $remote_addr;
+		proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header        X-Forwarded-Proto $scheme;
 	}
 }
 

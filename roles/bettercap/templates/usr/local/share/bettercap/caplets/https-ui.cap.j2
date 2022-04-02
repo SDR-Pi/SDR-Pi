@@ -10,16 +10,25 @@ set https.server.address {{ bettercap_https_server_address }}
 set https.server.port {{ bettercap_https_server_port }}
 
 # make sure both use the same https certificate so api requests won't fail
-set https.server.certificate ~/.bettercap-https.cert.pem
-set https.server.key ~/.bettercap-https.key.pem 
-set api.rest.certificate ~/.bettercap-https.cert.pem
-set api.rest.key ~/.bettercap-https.key.pem 
+# set https.server.certificate ~/.bettercap-https.cert.pem
+# set https.server.key ~/.bettercap-https.key.pem 
+# set api.rest.certificate ~/.bettercap-https.cert.pem
+# set api.rest.key ~/.bettercap-https.key.pem 
+
+set https.server.certificate {{ sdr_pi_folder }}/pki/issued/wildcard-chained.crt
+set https.server.key {{ sdr_pi_folder }}/pki/private/wildcard.key
+set api.rest.certificate {{ sdr_pi_folder }}/pki/issued/wildcard-chained.crt
+set api.rest.key {{ sdr_pi_folder }}/pki/private/wildcard.key
+
 # default installation path of the ui
 set https.server.path /usr/local/share/bettercap/ui
 
 # !!! CHANGE THESE !!!
 set api.rest.username {{ sdr_pi_admin_user }}
 set api.rest.password {{ sdr_pi_admin_password }}
+set api.rest.alloworigin: *
+
+set events.stream.output /var/log/bettercap.log
 
 # go!
 api.rest on

@@ -8,3 +8,15 @@
   with_items:
     - http-ui.cap
     - https-ui.cap
+
+- name: (Bettercap - HTTP(S) UI) - Deploy custom SystemD unit for bettercap
+  template:
+   src: lib/systemd/system/bettercap.service.j2
+   dest: /lib/systemd/system/bettercap.service
+
+- name: (Bettercap - HTTP(S) UI) - Reload and restart bettercap
+  systemd:
+    daemon_reload: yes
+    name: bettercap
+    enabled: yes
+    state: restarted

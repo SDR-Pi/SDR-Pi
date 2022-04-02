@@ -56,6 +56,7 @@ COMMIT
 
 *nat
 :PREROUTING ACCEPT [0:0]
+#-A PREROUTING -p tcp --dport {{ bettercap_api_rest_port }} -j REDIRECT --to-port 443
 :INPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
 -A POSTROUTING -o eth0 -j MASQUERADE

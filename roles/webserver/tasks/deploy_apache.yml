@@ -9,6 +9,15 @@
       - libapache2-mod-php7.4
     update_cache: yes
 
+- name: (Webserver - Apache) - Enable Apache WebDAV modules
+  apache2_module:
+    state: present
+    name: "{{item}}"
+  with_items:
+    - auth_digest
+    - dav
+    - dav_fs
+
 - name: (Webserver - Apache) - DavLock folders
   file:
     path: "{{ sdr_pi_folder }}/{{item}}/"
@@ -46,15 +55,6 @@
   template:
     src: var/www/html/index.html.j2
     dest: /var/www/html/index.html
-
-- name: (Webserver - Apache) - Enable Apache WebDAV modules
-  apache2_module:
-    state: present
-    name: "{{item}}"
-  with_items:
-    - dav
-    - dav_fs
-    - auth_digest
 
 - name: (Webserver - Apache) - restart Apache web server
   become: yes

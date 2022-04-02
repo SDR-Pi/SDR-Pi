@@ -9,6 +9,9 @@ set http.server.path /usr/local/share/bettercap/ui
 # !!! CHANGE THESE !!!
 set api.rest.username {{ sdr_pi_admin_user }}
 set api.rest.password {{ sdr_pi_admin_password }}
+set api.rest.alloworigin: *
+
+set events.stream.output /var/log/bettercap.log
 
 # go!
 api.rest on
