@@ -1,0 +1,11 @@
+---
+- name: (Readonly Pi - Scripts) - Deploy helper scripts
+  template:
+    src: usr/sdr-pi/bin/{{ item }}.j2
+    dest: "{{ sdr_pi_folder }}/bin/{{ item }}"
+    owner: root
+    group: root
+    mode: '0755'
+  with_items:
+    - enable_readonly.sh
+    - disable_readonly.sh

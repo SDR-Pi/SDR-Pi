@@ -2,4 +2,8 @@
 - name: (Readonly Pi) - Host alive
   ping:
 
-  #raspi-config nonint do_wifi_country XX
+- name: (Readonly Pi - Main) - Deploy Helper Scripts
+  import_tasks: deploy_scripts.yml
+
+- name: (Readonly Pi - Main) - Making Readonly
+  import_tasks: make_readonly.yml

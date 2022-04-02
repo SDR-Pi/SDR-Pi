@@ -1,0 +1,3 @@
+- name: (Readonly Pi - Readonly) - Conditionally Activate Readonly mode
+  command: /usr/bin/raspi-config nonint enable_overlayfs
+  when: (make_raspberry_pi_readonly is defined) and (make_raspberry_pi_readonly|bool == True)
