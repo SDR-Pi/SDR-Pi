@@ -9,4 +9,5 @@
     - certificate_authority
     - webserver
     - soapysdr_server
-    #- readonly_pi
+    - bettercap
+    - readonly_pi
