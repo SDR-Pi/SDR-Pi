@@ -47,4 +47,9 @@ The sdr-pi playbook can be executed from a host with both ansible and sshpass in
 
 To run the playbook use: 
 
-```ansible-playbook -i inventory.yml sdr-pi.yml --ask-pass```
+```Shell
+eval `ssh-agent`
+ssh-add 
+ssh-add -l
+ansible-playbook -i inventory.yml sdr-pi.yml --ask-pass
+```
