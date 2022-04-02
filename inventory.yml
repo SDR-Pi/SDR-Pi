@@ -15,15 +15,27 @@ all:
     interface_wlan0_ipaddress: "{{ interface_wlan0_subnet }}1"
     interface_eth0_ipaddress: "{{ interface_eth0_subnet }}1"
 
+    # SDR-Pi Admin Credentials
+    sdr_pi_admin_user: "admin"
+    sdr_pi_admin_password: "password"
+    sdr_pi_admin_webdav: "webdav"
+    # Assumes SSH Agent forwarding has access to an SSH key or is public repo
+    sdr_pi_admin_webdav_git_repo: ""
+
+    # Apache Authentication via htdigest
+    sdr_pi_htdigest:
+      - { name: "{{ sdr_pi_admin_user }}", password: "{{ sdr_pi_admin_user }}:{{ sdr_pi_admin_webdav }}:{{ sdr_pi_admin_password }}", realm: "{{ sdr_pi_admin_webdav }}" }
+
+
     # Admin users password to administer OpenWebRX
-    openwebrx_admin_password: "password2"
+    openwebrx_admin_password: "{{ sdr_pi_admin_password }}"
 
     sdr_pi_folder: "/usr/sdr-pi"
     soapyremote_server_tcp_port: 55132
 
     # Making Pi readonly should protect from power failure, 
     # However that is at the expense of configure ability.
-    make_raspberry_pi_readonly: yes
+    make_raspberry_pi_readonly: True
 
   children:
     sdr_pis:
