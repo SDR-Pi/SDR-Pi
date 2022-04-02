@@ -59,7 +59,8 @@
     state: restarted
 
 - name: (Webserver - Apache) - Deploy WebDav content
-  debug:
-    msg: "GIT {{ sdr_pi_admin_webdav_git_repo }}"
+  git:
+    repo: "{{ sdr_pi_admin_webdav_git_repo }}"
+    dest: {{ sdr_pi_folder }}/webdav
   when: (sdr_pi_admin_webdav_git_repo is defined) and (sdr_pi_admin_webdav_git_repo|length > 0)
 
