@@ -35,7 +35,7 @@ all:
 
     # Making Pi readonly should protect from power failure, 
     # However that is at the expense of configure ability.
-    make_raspberry_pi_readonly: True
+    # make_raspberry_pi_readonly: True
 
   children:
     sdr_pis:
