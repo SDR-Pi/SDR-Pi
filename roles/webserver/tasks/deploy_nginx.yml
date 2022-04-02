@@ -4,12 +4,17 @@
     pkg:
       - nginx
 
+- name: (Webserver - NginX) - Deploy NginX config /etc/nginx/nginx.conf
+  template:
+   src: etc/nginx/nginx.conf.j2
+   dest: /etc/nginx/nginx.conf
+
 - name: (Webserver - NginX) - Deploy NginX snippet /etc/nginx/snippets/sdr-pi-ssl
   template:
    src: etc/nginx/snippets/sdr-pi-ssl.conf.j2
    dest: /etc/nginx/snippets/sdr-pi-ssl.conf
 
-- name: (Webserver - NginX) - Deploy NginX config /etc/nginx/sites-available/default
+- name: (Webserver - NginX) - Deploy NginX default site /etc/nginx/sites-available/default
   template:
    src: etc/nginx/sites-available/default.j2
    dest: /etc/nginx/sites-available/default
