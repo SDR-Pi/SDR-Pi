@@ -1,0 +1,14 @@
+- name: (Bettercap - Go Environment) - Creates directory inc path
+  file:
+    path: "{{ sdr_pi_folder }}/go/bin/"
+    state: directory
+
+
+
+- name: (Bettercap - Go Environment) - Update PATH to include {{ sdr_pi_folder }}/go/bin/
+  template:
+   src: etc/profile.d/go-env.sh.j2
+   dest: /etc/profile.d/go-env.sh
+   owner: root
+   group: root
+   mode: '0755'

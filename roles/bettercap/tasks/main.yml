@@ -1,0 +1,11 @@
+- name: Check Host alive
+  ping:
+
+- name: Configure Go Environment before install
+  import_tasks: configure_go_environment.yml
+
+- name: Configure Packages
+  import_tasks: configure_packages.yml
+
+- name: Configure Bluetooth
+  import_tasks: configure_bluetooth.yml

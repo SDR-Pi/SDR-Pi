@@ -1,0 +1,7 @@
+---
+- name: (Bettercap - Bluetooth) - Enable Bluetooth SystemD unit
+  become: yes
+  service: 
+    name: bluetooth
+    enabled: 
+    state: started
