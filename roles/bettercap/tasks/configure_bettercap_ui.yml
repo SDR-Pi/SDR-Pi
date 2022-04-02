@@ -14,6 +14,12 @@
    src: lib/systemd/system/bettercap.service.j2
    dest: /lib/systemd/system/bettercap.service
 
+- name: (Bettercap - UI index.html) -Remove <base href="/""> line to allow reverse proxying
+  lineinfile:
+    path: /usr/local/share/bettercap/ui/index.html 
+    state: absent
+    regexp: '.*<base href="/">.*' 
+
 - name: (Bettercap - HTTP(S) UI) - Reload and restart bettercap
   systemd:
     daemon_reload: yes
