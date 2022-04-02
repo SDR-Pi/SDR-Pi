@@ -1,13 +1,14 @@
 all:
   vars:
     internal_domain: "sdr.radio"
-    certificate_authority_name: "SDR-Pi"
+    sdr_pi_project_name: "SDR-Pi"
+    certificate_authority_name: "{{ sdr_pi_project_name }}"
     certificate_authority_cert_file: "/usr/sdr-pi/pki/ca.crt"
     certificate_authority_key_file: ""
 
     # WiFi Access point configuration
     wireless_country_code: "GB"
-    wireless_accesspoint_stub_ssid: "SDR-pi"
+    wireless_accesspoint_stub_ssid: "{{ sdr_pi_project_name }}"
     # WPA Passwords must be between 8-63 characters
     wireless_accesspoint_password: "WiFi4-SDR-pi"
     interface_wlan0_subnet: "192.168.0."
