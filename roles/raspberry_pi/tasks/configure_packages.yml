@@ -16,6 +16,7 @@
       - bind9-utils
       - bind9-dnsutils
       - tcpdump
+      - python3-passlib 
 
 - name: (Raspberry Pi - Packages) - Disable Bluetooth SystemD unit
   become: yes
