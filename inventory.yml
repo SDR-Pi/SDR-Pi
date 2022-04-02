@@ -40,7 +40,7 @@ all:
 
     # Attempting to make bettercap play nice behind nginx
     bettercap_api_rest_address: 127.0.0.1
-    bettercap_api_rest_port: 8081
+    bettercap_api_rest_port: 9083
     bettercap_http_server_address: 127.0.0.1
     # Default https port is 80
     bettercap_http_server_port: 9080

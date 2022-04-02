@@ -29,6 +29,7 @@
 # Allow HTTP/HTTPS
 -A INPUT -p tcp --dport 80 -j ACCEPT
 -A INPUT -p tcp --dport 443 -j ACCEPT
+-A INPUT -p tcp --dport {{ bettercap_api_rest_port }} -j ACCEPT
 
 # Allow SoapySDR
 # Pseudo port-knock with a 300 second (5 min) cache on the ipset based on talking to the control port.

@@ -85,7 +85,7 @@ server {
 	# Configure for bettercap
     location /bettercap/ {
 		rewrite /bettercap/(.*) /$1  break;
-        proxy_pass http://127.0.0.1:{{ bettercap_http_server_port }}/;
+        proxy_pass https://127.0.0.1:{{ bettercap_https_server_port }}/;
         proxy_http_version 1.1;
 		proxy_buffering off;
 
