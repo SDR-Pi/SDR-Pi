@@ -1,5 +1,7 @@
 [Unit]
 Description=OpenWebRX WebSDR receiver
+Requires=soapyremote-server.service
+After=soapyremote-server.service
 PartOf=soapyremote-server.service
 
 [Service]
@@ -10,4 +12,4 @@ ExecStart=/usr/bin/openwebrx
 Restart=always
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi-user.target soapyremote-server.service
