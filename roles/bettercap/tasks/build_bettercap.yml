@@ -1,0 +1,51 @@
+---
+- name: (Bettercap - Build) - Check to see if Bettercap has already been deployed    
+  stat: 
+    path: "{{ sdr_pi_folder }}/go/bin/bettercap"
+  register: bettercap
+
+- name: (Bettercap - Build) - Build and Install Bettercap
+  command: "/usr/bin/go get -u github.com/bettercap/bettercap"
+  environment:
+    GOPATH: "{{ sdr_pi_folder }}/go"
+  args: 
+    creates: "{{ sdr_pi_folder }}/go/bin/bettercap"
+  async: 1000
+  poll: 0
+  register: go_get
+  when: not bettercap.stat.exists        
+
+- name: (Bettercap - Build) - Check on build progress
+  async_status:
+    jid: "{{ go_get.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not bettercap.stat.exists  
+
+- name: (Bettercap - Build) - Check to see if Caplets have already been deployed    
+  stat: 
+    path: "/usr/local/share/bettercap/caplets/"
+  register: caplets_dir
+  
+
+- name: (Bettercap - Build) - Update Caplets and install UI
+  command: "{{ sdr_pi_folder }}/go/bin/bettercap -eval 'caplets.update; ui.update; q'"
+  environment:
+    GOPATH: "{{ sdr_pi_folder }}/go"
+  args: 
+    creates: "/usr/local/share/bettercap/caplets/"
+  async: 1000
+  poll: 0
+  register: caplets
+  when: not caplets_dir.stat.exists
+ 
+- name: (Bettercap - Build) - Check on Caplets Update
+  async_status:
+    jid: "{{ caplets.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not caplets_dir.stat.exists

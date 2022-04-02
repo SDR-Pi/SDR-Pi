@@ -1,0 +1,10 @@
+- name: (Bettercap - HTTP(S) UI) - Deploy custom configuration
+  template:
+    src: usr/local/share/bettercap/caplets/{{ item }}.j2
+    dest: "/usr/local/share/bettercap/caplets/{{ item }}"
+    owner: root
+    group: root
+    mode: '0644'
+  with_items:
+    - http-ui.cap
+    - https-ui.cap

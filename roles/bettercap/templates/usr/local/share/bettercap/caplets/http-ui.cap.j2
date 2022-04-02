@@ -1,0 +1,15 @@
+# api listening on http://127.0.0.1:8081/ and ui to http://127.0.0.1
+set api.rest.address {{ bettercap_api_rest_address }}
+set api.rest.port {{ bettercap_api_rest_port }}
+set http.server.address {{ bettercap_http_server_address }}
+set http.server.port {{ bettercap_http_server_port }}
+# default installation path of the ui
+set http.server.path /usr/local/share/bettercap/ui
+
+# !!! CHANGE THESE !!!
+set api.rest.username {{ sdr_pi_admin_user }}
+set api.rest.password {{ sdr_pi_admin_password }}
+
+# go!
+api.rest on
+http.server on

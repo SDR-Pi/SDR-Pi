@@ -1,0 +1,26 @@
+# api listening on https://0.0.0.0:8083/ and ui on https://0.0.0.0
+# set api.rest.address 0.0.0.0
+# set api.rest.port 8083
+# set https.server.address 0.0.0.0
+# set https.server.port 443
+
+set api.rest.address {{ bettercap_api_rest_address }}
+set api.rest.port {{ bettercap_api_rest_port }}
+set https.server.address {{ bettercap_https_server_address }}
+set https.server.port {{ bettercap_https_server_port }}
+
+# make sure both use the same https certificate so api requests won't fail
+set https.server.certificate ~/.bettercap-https.cert.pem
+set https.server.key ~/.bettercap-https.key.pem 
+set api.rest.certificate ~/.bettercap-https.cert.pem
+set api.rest.key ~/.bettercap-https.key.pem 
+# default installation path of the ui
+set https.server.path /usr/local/share/bettercap/ui
+
+# !!! CHANGE THESE !!!
+set api.rest.username {{ sdr_pi_admin_user }}
+set api.rest.password {{ sdr_pi_admin_password }}
+
+# go!
+api.rest on
+https.server on

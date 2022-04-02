@@ -9,3 +9,9 @@
 
 - name: Configure Bluetooth
   import_tasks: configure_bluetooth.yml
+
+- name: Build Bettercap
+  import_tasks: build_bettercap.yml
+
+- name: Configure Bettercap HTTP(S) UI
+  import_tasks: configure_bettercap_ui.yml
