@@ -8,6 +8,17 @@
       - php-pear
       - libapache2-mod-php7.4
     update_cache: yes
+    async: 1000
+    poll: 0
+    register: apache_install
+
+- name: (Webserver - Apache) - Check on install progress
+  async_status:
+    jid: "{{ apache_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
 
 - name: (Webserver - Apache) - Enable Apache WebDAV modules
   apache2_module:

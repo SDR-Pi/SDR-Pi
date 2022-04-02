@@ -6,6 +6,17 @@
   apt:
     update_cache: yes
     upgrade: full
+    async: 1000
+    poll: 0
+    register: package_update
+
+- name: (Raspberry Pi - Packages) - Check on install progress
+  async_status:
+    jid: "{{ package_update.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
 
 - name: (Raspberry Pi - Packages) - Install Some Helpful Packages
   apt:
@@ -17,6 +28,17 @@
       - bind9-dnsutils
       - tcpdump
       - python3-passlib 
+    async: 1000
+    poll: 0
+    register: package_helpful
+
+- name: (Raspberry Pi - Packages) - Check on install of helpful packages
+  async_status:
+    jid: "{{ package_helpful.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
 
 - name: (Raspberry Pi - Packages) - Enable and start at daemon
   become: yes

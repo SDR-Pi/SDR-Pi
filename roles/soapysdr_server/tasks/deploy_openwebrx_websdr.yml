@@ -29,6 +29,17 @@
       - openwebrx
       - soapy-connector
     update_cache: yes
+    async: 1000
+    poll: 0
+    register: openwebrx_install
+
+- name: (SoapySDR - OpenWebRx) - Check on install progress
+  async_status:
+    jid: "{{ openwebrx_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
 
 - name: (SoapySDR - OpenWebRx) - Deploy custom SystemD unit for openwebrx
   template:

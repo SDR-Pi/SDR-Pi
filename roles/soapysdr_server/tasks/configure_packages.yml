@@ -5,6 +5,17 @@
       - soapysdr-module-all
       - soapysdr-tools
       - libiio-utils
+    async: 1000
+    poll: 0
+    register: soapy_install
+
+- name: (SoapySDR - Packages) - Check on install progress
+  async_status:
+    jid: "{{ soapy_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
 
 - name: (SoapySDR - Packages) - Install SDR Support Packages
   apt:
@@ -24,6 +35,17 @@
       - qthid-fcd-controller
       - uhd-soapysdr
       - soapysdr-module-uhd
+    async: 1000
+    poll: 0
+    register: support_install
+
+- name: (SoapySDR - Packages) - Check on support package install progress
+  async_status:
+    jid: "{{ support_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
 
 - name: (SoapySDR - Packages) - Install Helpful Packages
   apt:
@@ -33,6 +55,17 @@
       - inspectrum
       - quisk
       #- hamradio-sdr
+    async: 1000
+    poll: 0
+    register: helpful_install
+
+- name: (SoapySDR - Packages) - Check on helpful package install progress
+  async_status:
+    jid: "{{ helpful_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
 
 - name: (SoapySDR - Packages) - Deploy Environment file for soapyremote-server
   template:
