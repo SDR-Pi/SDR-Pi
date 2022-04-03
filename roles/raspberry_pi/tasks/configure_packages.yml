@@ -6,7 +6,8 @@
   apt:
     update_cache: yes
     upgrade: full
-  async: 1000
+  become: yes
+  async: 3600
   poll: 0
   register: package_update
 
@@ -28,7 +29,8 @@
       - bind9-dnsutils
       - tcpdump
       - python3-passlib 
-  async: 1000
+  become: yes
+  async: 3600
   poll: 0
   register: package_helpful
 

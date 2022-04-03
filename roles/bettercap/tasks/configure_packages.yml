@@ -7,7 +7,8 @@
       - libpcap-dev
       - libusb-1.0-0-dev
       - libnetfilter-queue-dev
-  async: 1000
+  become: yes
+  async: 3600
   poll: 0
   register: bettercap_dependencies_install
 

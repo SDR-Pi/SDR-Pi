@@ -11,7 +11,7 @@
   args: 
     creates: "{{ sdr_pi_folder }}/go/bin/bettercap"
   become: yes
-  async: 1000
+  async: 3600
   poll: 0
   register: go_get
   when: not bettercap.stat.exists        
@@ -38,7 +38,7 @@
   args: 
     creates: "/usr/local/share/bettercap/caplets/"
   become: yes
-  async: 1000
+  async: 3600
   poll: 0
   register: caplets
   when: not caplets_dir.stat.exists
