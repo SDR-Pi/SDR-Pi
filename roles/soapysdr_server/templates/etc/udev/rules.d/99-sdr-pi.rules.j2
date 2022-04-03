@@ -2,44 +2,44 @@
 # Modified from: AirSpy
 # https://github.com/jopohl/urh/wiki/SDR-udev-rules
 #
-ATTR{idVendor}=="1d50", ATTR{idProduct}=="60a1", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="60a1", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
 
 #
 # Modified from: BladeRF
 # https://github.com/jopohl/urh/wiki/SDR-udev-rules
 #
 # Nuand bladeRF
-ATTR{idVendor}=="2cf0", ATTR{idProduct}=="5246", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="2cf0", ATTR{idProduct}=="5246", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
 # Nuand bladeRF, legacy VID/PID
-ATTR{idVendor}=="1d50", ATTR{idProduct}=="6066", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="6066", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
 # Nuand bladeRF 2.0 micro
-ATTR{idVendor}=="2cf0", ATTR{idProduct}=="5250", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="2cf0", ATTR{idProduct}=="5250", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
 # Cypress FX3 Bootloader, used by bladeRF in recovery mode
-ATTR{idVendor}=="04b4", ATTR{idProduct}=="00f3", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="00f3", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
 
 #
 # Modified from: HackRF
 # https://github.com/jopohl/urh/wiki/SDR-udev-rules
 #
-ATTR{idVendor}=="1d50", ATTR{idProduct}=="604b", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
-ATTR{idVendor}=="1d50", ATTR{idProduct}=="6089", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
-ATTR{idVendor}=="1d50", ATTR{idProduct}=="cc15", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
-ATTR{idVendor}=="1fc9", ATTR{idProduct}=="000c", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="604b", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="6089", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="cc15", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1fc9", ATTR{idProduct}=="000c", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
 
 #
 # Modified from: LimeSDR
 # https://github.com/jopohl/urh/wiki/SDR-udev-rules
 #
-SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="8613", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
-SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="00f1", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
-SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="601f", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
-SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="6108", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="8613", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="00f1", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="601f", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="6108", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
 
 #
 # Modified from: LimeSDR
 # https://github.com/jopohl/urh/wiki/SDR-udev-rules
 #
-SUBSYSTEM=="usb", PROGRAM=="/bin/sh -c '/usr/bin/iio_info -s | grep %s{idVendor}:%s{idProduct}'", RESULT!="", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
+ACTION=="add", SUBSYSTEM=="usb", PROGRAM=="/bin/sh -c '/usr/bin/iio_info -s | grep %s{idVendor}:%s{idProduct}'", RESULT!="", RUN+="{{ sdr_pi_folder }}/bin/bounce-soapysever-remote.sh"
 
 
 #
