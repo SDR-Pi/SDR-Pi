@@ -142,3 +142,17 @@ As you come across issues with the hot swap functions, please can you log them a
 Currently installed at [https://sdr-pi.local/bettercap](https://sdr-pi.local/bettercap), allows simple bluetooth enumeration / first past analysis to aid in resolving any EMC issues.
 
 The default Raspberry Pi wireless adaptor cannot act as both an access point and in monitor mode; so the remainder of the bettercap tooling may not be useful without the addition of further hardware. 
+
+## Troubleshooting
+
+### Package installation
+
+If the load on the Pi causes the watch script within ansible to time out you may not be able to re-run the playbook as the dpkg subsystem will be locked.
+
+You can take a risk and kill dpkg, but that may leave the database in an inconsistent state. In which case try:
+
+```dpkg --configure -a```
+
+Alternatively wait for the Package installation task to complete; if you are impatient then this script may give you confidence to wait:
+
+``` while (ps | grep /usr/bin/dpkg  > /dev/null) ; do echo "Still Installing Packages" ; sleep 2 ;done ```
