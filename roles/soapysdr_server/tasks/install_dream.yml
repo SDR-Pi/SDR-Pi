@@ -74,7 +74,7 @@
   register: make_install_dream
   when: not dream.stat.exists        
 
-- name: (SoapySDR - DREAM) - Check on qmake progress
+- name: (SoapySDR - DREAM) - Check on installation progress
   async_status:
     jid: "{{ make_install_dream.ansible_job_id }}"
   register: job_result
