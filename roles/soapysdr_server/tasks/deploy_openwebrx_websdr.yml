@@ -28,6 +28,7 @@
     pkg:
       - openwebrx
       - soapy-connector
+      - owrx-connector
     update_cache: yes
   become: yes
   async: 3600

@@ -57,7 +57,10 @@
       - gqrx-sdr
       - inspectrum
       - quisk
-      #- hamradio-sdr
+      - hamradio-sdr
+      - hamradio-digitalvoice
+      - digiham
+      - python3-digiham
   become: yes
   async: 3600
   poll: 0

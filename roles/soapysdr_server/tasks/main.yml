@@ -7,6 +7,9 @@
 - name: (SoapySDR) Deploy OpenWebRx WebSDR
   import_tasks: deploy_openwebrx_websdr.yml
 
+- name: (SoapySDR) Install DREAM Plugin
+  import_tasks: install_dream.yml
+
 - name: (SoapySDR) Deploy udev rules
   import_tasks: deploy_udev_rules.yml
 

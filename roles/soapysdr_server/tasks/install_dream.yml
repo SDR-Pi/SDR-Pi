@@ -1,0 +1,38 @@
+---
+- name: (SoapySDR - DREAM) - Install DREAM Required Packages
+  apt:
+    pkg:
+      - qt5-default 
+      - libpulse0 
+      - libfaad2 
+      - libopus0 
+      - libpulse-dev 
+      - libfaad-dev 
+      - libopus-dev 
+      - libfftw3-dev
+    update_cache: yes
+  become: yes
+  async: 3600
+  poll: 0
+  register: dream_req_packages_install
+
+- name: (SoapySDR - DREAM) - Check on install progress
+  async_status:
+    jid: "{{ dream_req_packages_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+
+
+# wget https://downloads.sourceforge.net/project/drm/dream/2.1.1/dream-2.1.1-svn808.tar.gz
+
+# tar xvfz dream-2.1.1-svn808.tar.gz
+
+# cd dream
+
+# qmake CONFIG+=console
+
+# make
+
+# sudo make install
