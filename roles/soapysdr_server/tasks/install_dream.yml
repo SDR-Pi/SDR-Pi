@@ -10,7 +10,8 @@
       - libfaad2 
       - libopus0 
       - libpulse-dev 
-      - libfaad-dev 
+      - libfaad-dev
+      - libaacs-dev 
       - libopus-dev 
       - libfftw3-dev
     update_cache: yes
@@ -59,9 +60,30 @@
     jid: "{{ qmake_dream.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
   when: not dream.stat.exists  
+
+- name: (SoapySDR - DREAM) - Make DREAM
+  command: "/usr/bin/make"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/dream"
+    creates: "{{ sdr_pi_folder }}/src/dream/dream"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_dream
+  when: not dream.stat.exists        
+
+- name: (SoapySDR - DREAM) - Check on make progress
+  async_status:
+    jid: "{{ make_dream.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not dream.stat.exists  
+
 
 - name: (SoapySDR - DREAM) - Install DREAM
   command: "/usr/bin/make install"
@@ -79,6 +101,6 @@
     jid: "{{ make_install_dream.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
   when: not dream.stat.exists  
