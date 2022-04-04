@@ -41,5 +41,37 @@
             "antenna": "RX2",
             "always-on": true
         }
-    }
+    },
+    "receiver_name": "{{ openwebrx_receiver_callsign }}",
+    "receiver_location": "{{ openwebrx_receiver_location }}",
+    "receiver_asl": {{ openwebrx_receiver_asl }},
+    "receiver_admin": "{{ openwebrx_receiver_admin }}",
+    "receiver_gps": {
+        "lat": {{ openwebrx_receiver_gps_lat }},
+        "lon": {{ openwebrx_receiver_gps_lon }}
+    },
+    "photo_title": "{{ openwebrx_photo_title }}",
+    "photo_desc": "",
+    "max_clients": 20,
+    "receiver_keys": [
+        ""
+    ],
+    "waterfall_scheme": "GoogleTurboWaterfall",
+    "fft_fps": 9,
+    "fft_size": 4096,
+    "fft_voverlap_factor": 0.3,
+    "waterfall_levels": {
+        "min": -88.0,
+        "max": -20.0
+    },
+    "waterfall_auto_levels": {
+        "min": 3.0,
+        "max": 10.0
+    },
+    "waterfall_auto_min_range": 50,
+    "audio_compression": "adpcm",
+    "fft_compression": "adpcm",
+    "tuning_precision": 2,
+    "google_maps_api_key": "{{ openwebrx_google_maps_api_key }}",
+    "map_position_retention_time": 7200
 }

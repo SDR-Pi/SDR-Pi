@@ -30,6 +30,15 @@ all:
 
     # Admin users password to administer OpenWebRX
     openwebrx_admin_password: "{{ sdr_pi_admin_password }}"
+    openwebrx_receiver_callsign: "{{ sdr_pi_project_name }}"
+    openwebrx_receiver_location: "London, UK"
+    openwebrx_receiver_asl: 200
+    openwebrx_receiver_admin: "example@example.com"
+    # Random London Lat/Lon
+    openwebrx_receiver_gps_lat: "51.47234698841224" 
+    openwebrx_receiver_gps_lon: "-0.1654722532672137"
+    openwebrx_photo_title: "{{ sdr_pi_project_name }}"
+    openwebrx_google_maps_api_key: ""
 
     sdr_pi_folder: "/usr/sdr-pi"
     soapyremote_server_tcp_port: 55132
