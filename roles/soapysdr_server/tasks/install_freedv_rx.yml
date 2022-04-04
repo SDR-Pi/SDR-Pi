@@ -1,0 +1,119 @@
+---
+- name: (SoapySDR - FreeDV) - Install FreeDV Required Packages
+  apt:
+    pkg:
+      - cmake
+    update_cache: yes
+  become: yes
+  async: 3600
+  poll: 0
+  register: freedv_req_packages_install
+
+- name: (SoapySDR - FreeDV) - Check on install progress for required tools
+  async_status:
+    jid: "{{ freedv_req_packages_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+
+- name: (SoapySDR - FreeDV) - Check to see if FreeDV has already been deployed    
+  stat: 
+    path: "/usr/local/bin/freedv_rx"
+  register: freedv
+
+- name: (SoapySDR - FreeDV) - Ensure we have src folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src"
+    state: directory
+
+- name: (SoapySDR - FreeDV) - Download FreeDV and extract it to {{ sdr_pi_folder }}/src/codec2
+  git:
+    repo: https://github.com/drowe67/codec2.git
+    dest: "{{ sdr_pi_folder }}/src/codec2"
+
+- name: (SoapySDR - FreeDV) - Ensure we have build folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src/codec2/build"
+    state: directory
+
+
+- name: (SoapySDR - FreeDV) - Cmake FreeDV
+  command: "/usr/bin/cmake .."
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/codec2/build"
+    creates: "{{ sdr_pi_folder }}/src/codec2/build/Makefile"
+  become: yes
+  async: 3600
+  poll: 0
+  register: cmake_freedv
+  when: not freedv.stat.exists        
+
+- name: (SoapySDR - FreeDV) - Check on cmake progress
+  async_status:
+    jid: "{{ cmake_freedv.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not freedv.stat.exists  
+
+- name: (SoapySDR - FreeDV) - Make FreeDV
+  command: "/usr/bin/make"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/codec2/build"
+    creates: "{{ sdr_pi_folder }}/src/codec2/build/src/freedv_rx"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_freedv
+  when: not freedv.stat.exists        
+
+- name: (SoapySDR - FreeDV) - Check on make progress
+  async_status:
+    jid: "{{ make_freedv.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not freedv.stat.exists  
+
+- name: (SoapySDR - FreeDV) - Install FreeDV
+  command: "/usr/bin/make install"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/codec2/build"
+    creates: "/usr/local/include/codec2/codec2.h"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_install_freedv
+  when: not freedv.stat.exists        
+
+- name: (SoapySDR - FreeDV) - Check on Installation Progress
+  async_status:
+    jid: "{{ make_install_freedv.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not freedv.stat.exists  
+
+- name: (SoapySDR - FreeDV) - Install FreeDV_RX
+  command: "install -m 0755 src/freedv_rx /usr/local/bin"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/codec2/build"
+    creates: "/usr/local/bin/freedv_rx"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_install_freedv_rx
+  when: not freedv.stat.exists        
+
+- name: (SoapySDR - FreeDV) - Check on Installation Progress
+  async_status:
+    jid: "{{ make_install_freedv_rx.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not freedv.stat.exists  
