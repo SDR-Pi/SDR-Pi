@@ -2,7 +2,10 @@
 - name: (SoapySDR - DREAM) - Install DREAM Required Packages
   apt:
     pkg:
-      - qt5-default 
+      - qtbase5-dev
+      - qtchooser
+      - qt5-qmake
+      - qtbase5-dev-tools 
       - libpulse0 
       - libfaad2 
       - libopus0 
@@ -16,7 +19,7 @@
   poll: 0
   register: dream_req_packages_install
 
-- name: (SoapySDR - DREAM) - Check on install progress
+- name: (SoapySDR - DREAM) - Check on install progress for required tools
   async_status:
     jid: "{{ dream_req_packages_install.ansible_job_id }}"
   register: job_result
@@ -24,15 +27,58 @@
   retries: 100
   delay: 10
 
+- name: (SoapySDR - DREAM) - Check to see if DREAM has already been deployed    
+  stat: 
+    path: "/usr/bin/dream"
+  register: dream
 
-# wget https://downloads.sourceforge.net/project/drm/dream/2.1.1/dream-2.1.1-svn808.tar.gz
+- name: (SoapySDR - DREAM) - Ensure we have src folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src"
+    state: directory
 
-# tar xvfz dream-2.1.1-svn808.tar.gz
+- name: (SoapySDR - DREAM) - Download DREAM and extract it to {{ sdr_pi_folder }}/src
+  unarchive:
+    src: https://downloads.sourceforge.net/project/drm/dream/2.1.1/dream-2.1.1-svn808.tar.gz
+    dest: "{{ sdr_pi_folder }}/src"
+    remote_src: yes
 
-# cd dream
+- name: (SoapySDR - DREAM) - Qmake DREAM
+  command: "/usr/bin/qmake CONFIG+=console"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/dream"
+    creates: "{{ sdr_pi_folder }}/src/dream/Makefile"
+  become: yes
+  async: 3600
+  poll: 0
+  register: qmake_dream
+  when: not dream.stat.exists        
 
-# qmake CONFIG+=console
+- name: (SoapySDR - DREAM) - Check on qmake progress
+  async_status:
+    jid: "{{ qmake_dream.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not dream.stat.exists  
 
-# make
+- name: (SoapySDR - DREAM) - Install DREAM
+  command: "/usr/bin/make install"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/dream"
+    creates: "{{ sdr_pi_folder }}/src/dream/dream"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_install_dream
+  when: not dream.stat.exists        
 
-# sudo make install
+- name: (SoapySDR - DREAM) - Check on qmake progress
+  async_status:
+    jid: "{{ make_install_dream.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not dream.stat.exists  
