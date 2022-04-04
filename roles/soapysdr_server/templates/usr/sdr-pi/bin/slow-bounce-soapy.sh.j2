@@ -1,7 +1,56 @@
 #!/bin/bash
 
-systemctl stop soapyremote-server
+another_instance()
+{
+    logger SlowBounce: Another instance is already running...
+    exit 
+}
 
-sleep 8
+slow_bounce()
+{
+    logger SlowBounce: Sucessfully got lock
 
-systemctl start soapyremote-server
+    # Ettus B200 takes about 10 seconds to load / stabilise
+    sleep 15
+
+    #logger SlowBounce: Starting Soapyremote-server
+    #systemctl start soapyremote-server
+
+    # Check to see if SoapySDR is still playing nice on TCP
+    SoapySDR=$(SoapySDRUtil --find="remote=127.0.0.1" 2>&1 | grep "SoapyRemote::find" | grep "\[ERROR\]")
+    if [ -n "${SoapySDR}" ] ; then
+        logger SlowBounce: Starting Soapyremote-server appears to have hung, will restart it now
+        systemctl restart soapyremote-server
+    fi
+
+    
+    logger SlowBounce: Stopping OpenWebRx  
+    systemctl stop openwebrx &
+    
+    sleep 5
+
+    STATE=`systemctl is-active openwebrx`
+    if [ "${STATE}" == "deactivating" ] ; then
+        logger SlowBounce: OpenWebRx appears to have hung, killing it now
+        systemctl kill openwebrx
+        systemctl stop openwebrx
+    fi
+
+    sleep 5 
+
+    logger SlowBounce: Starting OpenWebRx  
+    systemctl start openwebrx
+
+    sleep 25
+
+    logger SlowBounce: Releasing lock
+}
+
+# If we cannot get an exclusive lock, then there is another instance
+# Jump to that subroutine
+# Otherwise SlowBounce
+logger SlowBounce: Attmpting to gain lock
+( flock -n 100 || another_instance 
+    slow_bounce
+
+) 100>{{ sdr_pi_folder }}/slowbounce.lock

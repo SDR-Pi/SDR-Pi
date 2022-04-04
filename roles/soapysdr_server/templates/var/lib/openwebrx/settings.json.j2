@@ -1,26 +1,6 @@
 {
     "version": 7,
     "sdrs": {
-        "rtlsdr": {
-            "name": "RTL-SDR USB Stick",
-            "type": "rtl_sdr",
-{% include "templates/var/lib/openwebrx/profiles.json.j2" ignore missing %}       
-            "enabled": false
-        },
-        "airspy": {
-            "name": "Airspy HF+",
-            "type": "airspyhf",
-            "rf_gain": "auto",
-{% include "templates/var/lib/openwebrx/profiles.json.j2" ignore missing %}      
-            "enabled": false
-        },
-        "sdrplay": {
-            "name": "SDRPlay RSP2",
-            "type": "sdrplay",
-            "antenna": "Antenna A",
-{% include "templates/var/lib/openwebrx/profiles.json.j2" ignore missing %}      
-            "enabled": false
-        },
         "soapy_bladerf": {
             "name": "SoapySDR-BladeRF",
             "type": "soapy_remote",
@@ -36,7 +16,7 @@
             "name": "SoapySDR-HackRF",
             "type": "soapy_remote",
 {% include "templates/var/lib/openwebrx/profiles.json.j2" ignore missing %}      
-            "rf_gain": "auto",
+            "rf_gain": "50.0",
             "ppm": 0,
             "remote": "tcp://127.0.0.1:55132",
             "remote_driver": "hackrf"
@@ -45,7 +25,7 @@
             "name": "SoapySDR-RTL-SDR",
             "type": "soapy_remote",
 {% include "templates/var/lib/openwebrx/profiles.json.j2" ignore missing %}      
-            "rf_gain": "20.0",
+            "rf_gain": "auto",
             "ppm": 0,
             "remote": "tcp://127.0.0.1:55132",
             "remote_driver": "rtlsdr"
@@ -58,7 +38,8 @@
             "ppm": 0,
             "remote": "tcp://127.0.0.1:55132",
             "remote_driver": "uhd",
-            "antenna": "RX2"
+            "antenna": "RX2",
+            "always-on": true
         }
     }
 }
