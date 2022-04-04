@@ -4,11 +4,14 @@
 - name: (SoapySDR) Install Packages
   import_tasks: configure_packages.yml  
 
-- name: (SoapySDR) Deploy OpenWebRx WebSDR
-  import_tasks: deploy_openwebrx_websdr.yml
-
 - name: (SoapySDR) Install DREAM Plugin
   import_tasks: install_dream.yml
+
+- name: (SoapySDR) Install FreeDV Plugin
+  import_tasks: install_freedv_rx.yml
+
+- name: (SoapySDR) Deploy OpenWebRx WebSDR
+  import_tasks: deploy_openwebrx_websdr.yml
 
 - name: (SoapySDR) Deploy udev rules
   import_tasks: deploy_udev_rules.yml
