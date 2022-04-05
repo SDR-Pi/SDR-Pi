@@ -156,3 +156,17 @@ You can take a risk and kill dpkg, but that may leave the database in an inconsi
 Alternatively wait for the Package installation task to complete; if you are impatient then this script may give you confidence to wait:
 
 ``` while (ps | grep /usr/bin/dpkg  > /dev/null) ; do echo "Still Installing Packages" ; sleep 2 ;done ```
+
+### SDRplay 
+
+In order to build SDRplay into SoapySDR we need to have version 3+ of the SDRplay API available at the time of compilation.
+
+However, this is API cannot be distributed and is only licensed for use with legitimate SDRplay products. If you have such a product you can download the API installer directly from [SDRplay](http://www.sdrplay.com).
+
+You will need to go to:
+- Software/Downloads
+    - Other Software
+
+Select your SDRplay device type and "ARM Other" as the operating system.
+
+Download the installer, upload it to your Pi and execute from here, after which re-run the playbook and the soapyremote SDRplay plugin will be compiled and installed.
