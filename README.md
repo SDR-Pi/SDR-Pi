@@ -157,6 +157,10 @@ Alternatively wait for the Package installation task to complete; if you are imp
 
 ``` while (ps -eaf | grep "/usr/bin/dpkg" | grep -v grep > /dev/null) ; do echo "Still Installing Packages" ; sleep 2 ;done ```
 
+To see which package is actually being installed consider:
+
+``` while true; do clear; ps -efa   | grep dpkg-deb ; sleep 4 ; done ```
+
 ### SDRplay 
 
 In order to build SDRplay into SoapySDR we need to have version 3+ of the SDRplay API available at the time of compilation.
