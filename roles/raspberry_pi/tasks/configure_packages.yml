@@ -16,7 +16,7 @@
     jid: "{{ package_update.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
 
 - name: (Raspberry Pi - Packages) - Install Some Helpful Packages
@@ -39,7 +39,7 @@
     jid: "{{ package_helpful.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
 
 - name: (Raspberry Pi - Packages) - Remove /var/spool/cron/atjobs to clean up stale at jobs
