@@ -1,0 +1,102 @@
+---
+- name: (SoapySDR - PlutoSDR) - Install PlutoSDR Required Packages
+  apt:
+    pkg:
+      - cmake
+      - libad9361-dev
+      - libiio-dev
+    update_cache: yes
+  become: yes
+  async: 3600
+  poll: 0
+  register: plutosdr_req_packages_install
+
+- name: (SoapySDR - PlutoSDR) - Check on install progress for required tools
+  async_status:
+    jid: "{{ plutosdr_req_packages_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+
+- name: (SoapySDR - PlutoSDR) - Check to see if PlutoSDR has already been deployed    
+  stat: 
+    path: "/usr/local/lib/SoapySDR/modules0.7/libPlutoSDRSupport.so"
+  register: plutosdr
+
+- name: (SoapySDR - PlutoSDR) - Ensure we have src folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src"
+    state: directory
+
+- name: (SoapySDR - PlutoSDR) - Download PlutoSDR and extract it to {{ sdr_pi_folder }}/src/SoapyPlutoSDR
+  git:
+    repo: https://github.com/pothosware/SoapyPlutoSDR
+    dest: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR"
+
+- name: (SoapySDR - PlutoSDR) - Ensure we have build folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR/build"
+    state: directory
+
+
+- name: (SoapySDR - PlutoSDR) - Cmake PlutoSDR
+  command: "/usr/bin/cmake .."
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR/build"
+    creates: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR/build/Makefile"
+  become: yes
+  async: 3600
+  poll: 0
+  register: cmake_plutosdr
+  when: not plutosdr.stat.exists        
+
+- name: (SoapySDR - PlutoSDR) - Check on cmake progress
+  async_status:
+    jid: "{{ cmake_plutosdr.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not plutosdr.stat.exists  
+
+- name: (SoapySDR - PlutoSDR) - Make PlutoSDR
+  command: "/usr/bin/make"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR/build"
+    creates: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR/build/libPlutoSDRSupport.so"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_plutosdr
+  when: not plutosdr.stat.exists        
+
+- name: (SoapySDR - PlutoSDR) - Check on make progress
+  async_status:
+    jid: "{{ make_plutosdr.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not plutosdr.stat.exists  
+
+- name: (SoapySDR - PlutoSDR) - Install PlutoSDR
+  command: "/usr/bin/make install"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR/build"
+    creates: "/usr/local/lib/SoapySDR/modules0.7/libPlutoSDRSupport.so"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_install_plutosdr
+  when: not plutosdr.stat.exists        
+
+- name: (SoapySDR - PlutoSDR) - Check on Installation Progress
+  async_status:
+    jid: "{{ make_install_plutosdr.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not plutosdr.stat.exists  
+
