@@ -1,0 +1,101 @@
+---
+- name: (SoapySDR - AirspyHF) - Install AirspyHF Required Packages
+  apt:
+    pkg:
+      - soapysdr-tools
+      - libairspyhf-dev
+    update_cache: yes
+  become: yes
+  async: 3600
+  poll: 0
+  register: airspyhf_req_packages_install
+
+- name: (SoapySDR - AirspyHF) - Check on install progress for required tools
+  async_status:
+    jid: "{{ airspyhf_req_packages_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+
+- name: (SoapySDR - AirspyHF) - Check to see if AirspyHF has already been deployed    
+  stat: 
+    path: "/usr/local/lib/SoapySDR/modules0.7/libairspyhfSupport.so"
+  register: airspyhf
+
+- name: (SoapySDR - AirspyHF) - Ensure we have src folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src"
+    state: directory
+
+- name: (SoapySDR - AirspyHF) - Download AirspyHF and extract it to {{ sdr_pi_folder }}/src/SoapyAirspyHF
+  git:
+    repo: https://github.com/pothosware/SoapyAirspyHF.git
+    dest: "{{ sdr_pi_folder }}/src/SoapyAirspyHF"
+
+- name: (SoapySDR - AirspyHF) - Ensure we have build folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src/SoapyAirspyHF/build"
+    state: directory
+
+
+- name: (SoapySDR - AirspyHF) - Cmake AirspyHF
+  command: "/usr/bin/cmake .."
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/SoapyAirspyHF/build"
+    creates: "{{ sdr_pi_folder }}/src/SoapyAirspyHF/build/Makefile"
+  become: yes
+  async: 3600
+  poll: 0
+  register: cmake_airspyhf
+  when: not airspyhf.stat.exists        
+
+- name: (SoapySDR - AirspyHF) - Check on cmake progress
+  async_status:
+    jid: "{{ cmake_airspyhf.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not airspyhf.stat.exists  
+
+- name: (SoapySDR - AirspyHF) - Make AirspyHF
+  command: "/usr/bin/make"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/SoapyAirspyHF/build"
+    creates: "{{ sdr_pi_folder }}/src/SoapyAirspyHF/build/libairspyhfSupport.so"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_airspyhf
+  when: not airspyhf.stat.exists        
+
+- name: (SoapySDR - AirspyHF) - Check on make progress
+  async_status:
+    jid: "{{ make_airspyhf.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not airspyhf.stat.exists  
+
+- name: (SoapySDR - AirspyHF) - Install AirspyHF
+  command: "/usr/bin/make install"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/SoapyAirspyHF/build"
+    creates: "/usr/local/lib/SoapySDR/modules0.7/libairspyhfSupport.so"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_install_airspyhf
+  when: not airspyhf.stat.exists        
+
+- name: (SoapySDR - AirspyHF) - Check on Installation Progress
+  async_status:
+    jid: "{{ make_install_airspyhf.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not airspyhf.stat.exists  
+
