@@ -22,6 +22,7 @@
   apt:
     pkg:
       - airspy
+      - airspyhf
       - bladerf
       - cubicsdr
       - cutesdr
@@ -35,8 +36,20 @@
       - rtl-sdr
       - qthid-fcd-controller
       - uhd-soapysdr
-      - soapysdr-module-uhd
       - uhd-host
+      - soapysdr-module-airspy
+      - soapysdr-module-audio
+      - soapysdr-module-bladerf
+      - soapysdr-module-hackrf
+      - soapysdr-module-lms7
+      - soapysdr-module-mirisdr
+      - soapysdr-module-osmosdr
+      - soapysdr-module-redpitaya
+      - soapysdr-module-remote
+      - soapysdr-module-rfspace
+      - soapysdr-module-rtlsdr
+      - soapysdr-module-uhd
+      #- soapysdr-module-xtrx
   become: yes
   async: 3600
   poll: 0
@@ -83,40 +96,6 @@
   template:
    src: lib/systemd/system/soapyremote-server.service.j2
    dest: /lib/systemd/system/soapyremote-server.service
-
-# - name: (SoapySDR - Packages) - Install SDR Support Packages for Princeton Edu wsjtx package
-#   apt:
-#     pkg: 
-#       - libgfortran5 
-#       - libqt5widgets5
-#       - libqt5network5
-#       - libqt5printsupport5
-#       - libqt5multimedia5-plugins
-#       - libqt5serialport5 
-#       - libqt5sql5-sqlite
-#       - libfftw3-single3
-#       - libgomp1
-#       - libboost-all-dev
-#       - libboost-atomic
-#       - libusb-1.0-0
-#       - libportaudio2
-#   become: yes
-#   async: 3600
-#   poll: 0
-#   register: princeton_install
-
-# - name: (SoapySDR - Packages) - Check on Support Packages for Princeton Edu wsjtx install progress
-#   async_status:
-#     jid: "{{ helpful_install.ansible_job_id }}"
-#   register: job_result
-#   until: job_result.finished
-#   retries: 100
-#   delay: 10
-
-# # https://physics.princeton.edu/pulsar/k1jt/wsjtx-doc/wsjtx-main-2.5.4.html#INSTALL_LINUX
-# - name: (SoapySDR - Packages) - Deploy wsjtx from Princeton Edu
-#   apt:
-#     deb: https://physics.princeton.edu/pulsar/K1JT/wsjtx_2.5.4_armhf.deb
 
 - name: (SoapySDR - Packages) - Reload and restart soapyremote-server
   systemd:
