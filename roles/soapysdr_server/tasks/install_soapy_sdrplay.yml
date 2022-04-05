@@ -1,0 +1,99 @@
+- name: (SoapySDR - SDRPlay) - Install SDRPlay Required Packages
+  apt:
+    pkg:
+      - cmake
+      - libsoapysdr-dev
+    update_cache: yes
+  become: yes
+  async: 3600
+  poll: 0
+  register: SDRPlay_req_packages_install
+
+- name: (SoapySDR - SDRPlay) - Check on install progress for required tools
+  async_status:
+    jid: "{{ SDRPlay_req_packages_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+
+- name: (SoapySDR - SDRPlay) - Check to see if SDRPlay has already been deployed    
+  stat: 
+    path: "/usr/local/lib/SoapySDR/modules0.7/libsdrPlaySupport.so"
+  register: SDRPlay
+
+- name: (SoapySDR - SDRPlay) - Ensure we have src folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src"
+    state: directory
+
+- name: (SoapySDR - SDRPlay) - Download SDRPlay and extract it to {{ sdr_pi_folder }}/src/SoapySDRPlay
+  git:
+    repo: https://github.com/pothosware/SoapySDRPlay.git
+    dest: "{{ sdr_pi_folder }}/src/SoapySDRPlay"
+
+- name: (SoapySDR - SDRPlay) - Ensure we have build folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src/SoapySDRPlay/build"
+    state: directory
+
+
+- name: (SoapySDR - SDRPlay) - Cmake SDRPlay
+  command: "/usr/bin/cmake .."
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/SoapySDRPlay/build"
+    creates: "{{ sdr_pi_folder }}/src/SoapySDRPlay/build/Makefile"
+  become: yes
+  async: 3600
+  poll: 0
+  register: cmake_SDRPlay
+  when: not SDRPlay.stat.exists        
+
+- name: (SoapySDR - SDRPlay) - Check on cmake progress
+  async_status:
+    jid: "{{ cmake_SDRPlay.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not SDRPlay.stat.exists  
+
+- name: (SoapySDR - SDRPlay) - Make SDRPlay
+  command: "/usr/bin/make"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/SoapySDRPlay/build"
+    creates: "{{ sdr_pi_folder }}/src/SoapySDRPlay/build/libsdrPlaySupport.so"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_SDRPlay
+  when: not SDRPlay.stat.exists        
+
+- name: (SoapySDR - SDRPlay) - Check on make progress
+  async_status:
+    jid: "{{ make_SDRPlay.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not SDRPlay.stat.exists  
+
+- name: (SoapySDR - SDRPlay) - Install SDRPlay
+  command: "/usr/bin/make install"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/SoapySDRPlay/build"
+    creates: "/usr/local/lib/SoapySDR/modules0.7/libsdrPlaySupport.so"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_install_SDRPlay
+  when: not SDRPlay.stat.exists        
+
+- name: (SoapySDR - SDRPlay) - Check on Installation Progress
+  async_status:
+    jid: "{{ make_install_SDRPlay.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not SDRPlay.stat.exists  

@@ -1,0 +1,12 @@
+- name: (SoapySDR - SDRPlayAPI) - Check to see if SDRPlay API has already been deployed    
+  stat: 
+    path: "/usr/local/bin/sdrplay_apiService"
+  register: SDRPlay_API
+
+
+- import_tasks: install_soapy_sdrplay.yml
+  when: SDRPlay_API.stat.exists  
+
+- debug:
+    msg: "SDRplay API was not found, please download directly from http://www.sdrplay.com if you want to build support for it."
+  when: not SDRPlay_API.stat.exists  
