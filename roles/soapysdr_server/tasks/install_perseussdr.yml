@@ -1,0 +1,112 @@
+- name: (SoapySDR - PerseusSDR) - Install PerseusSDR Required Packages
+  apt:
+    pkg:
+      - libusb-1.0-0-dev
+    update_cache: yes
+  become: yes
+  async: 3600
+  poll: 0
+  register: PerseusSDR_req_packages_install
+
+- name: (SoapySDR - PerseusSDR) - Check on install progress for required tools
+  async_status:
+    jid: "{{ PerseusSDR_req_packages_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+
+- name: (SoapySDR - PerseusSDR) - Check to see if PerseusSDR has already been deployed    
+  stat: 
+    path: "/usr/local/bin/SDRPlay_rx2"
+  register: PerseusSDR
+
+- name: (SoapySDR - PerseusSDR) - Ensure we have src folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src"
+    state: directory
+
+- name: (SoapySDR - PerseusSDR) - Download PerseusSDR and extract it to {{ sdr_pi_folder }}/src/libperseus_sdr-0.8.2
+  unarchive:
+    src: https://github.com/Microtelecom/libperseus-sdr/releases/download/v0.8.2/libperseus_sdr-0.8.2.tar.gz
+    dest: "{{ sdr_pi_folder }}/src"
+    remote_src: yes
+
+- name: (SoapySDR - PerseusSDR) - Configure PerseusSDR
+  command: "./configure"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/libperseus_sdr-0.8.2"
+    creates: "{{ sdr_pi_folder }}/src/ibperseus_sdr-0.8.2/config.status"
+  become: yes
+  async: 3600
+  poll: 0
+  register: configure_PerseusSDR
+  when: not PerseusSDR.stat.exists        
+
+- name: (SoapySDR - PerseusSDR) - Check on configure progress
+  async_status:
+    jid: "{{ configure_PerseusSDR.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not PerseusSDR.stat.exists  
+
+- name: (SoapySDR - PerseusSDR) - Make PerseusSDR
+  command: "/usr/bin/make"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/libperseus_sdr-0.8.2"
+    creates: "{{ sdr_pi_folder }}/src/libperseus_sdr-0.8.2/libperseus_sdr_la-fpga_data.o"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_PerseusSDR
+  when: not PerseusSDR.stat.exists        
+
+- name: (SoapySDR - PerseusSDR) - Check on make progress
+  async_status:
+    jid: "{{ make_PerseusSDR.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not PerseusSDR.stat.exists  
+
+- name: (SoapySDR - PerseusSDR) - Install PerseusSDR
+  command: "/usr/bin/make install"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/libperseus_sdr-0.8.2"
+    creates: "/usr/local/lib/SoapySDR/modules0.7/libsdrPlaySupport.so1"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_install_PerseusSDR
+  when: not PerseusSDR.stat.exists        
+
+- name: (SoapySDR - SDRPlay) - Check on Installation Progress
+  async_status:
+    jid: "{{ make_install_PerseusSDR.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not PerseusSDR.stat.exists  
+
+- name: (SoapySDR - PerseusSDR) - Library configure (ldconfig) for PerseusSDR
+  command: "ldconfig"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/libperseus_sdr-0.8.2"
+  become: yes
+  async: 3600
+  poll: 0
+  register: ldconfig_PerseusSDR
+  when: not PerseusSDR.stat.exists        
+
+- name: (SoapySDR - PerseusSDR) - Check on Installation Progress
+  async_status:
+    jid: "{{ ldconfig_PerseusSDR.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not PerseusSDR.stat.exists  
