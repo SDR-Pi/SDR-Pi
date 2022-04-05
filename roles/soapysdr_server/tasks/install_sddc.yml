@@ -1,0 +1,203 @@
+---
+- name: (SoapySDR - SDDC) - Install PlutoSDR Required Packages
+  apt:
+    pkg:
+      - cmake
+      - libcsdr-dev
+      - libowrx-connector-dev
+    update_cache: yes
+  become: yes
+  async: 3600
+  poll: 0
+  register: sddc_req_packages_install
+
+- name: (SoapySDR - SDDC) - Check on install progress for required tools
+  async_status:
+    jid: "{{ sddc_req_packages_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+
+- name: (SoapySDR - SDDC) - Check to see if LibSDDC has already been deployed    
+  stat: 
+    path: "/usr/local/bin/sddc_test"
+  register: libsddc
+
+- name: (SoapySDR - SDDC) - Ensure we have src folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src"
+    state: directory
+
+- name: (SoapySDR - SDDC) - Download LibSDDC and extract it to {{ sdr_pi_folder }}/src/libsddc
+  git:
+    repo: https://github.com/fventuri/libsddc.git
+    dest: "{{ sdr_pi_folder }}/src/libsddc"
+
+- name: (SoapySDR - SDDC) - Ensure we have build folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src/libsddc/build"
+    state: directory
+
+- name: (SoapySDR - SDDC) - Cmake LibSDDC
+  command: "/usr/bin/cmake .."
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/libsddc/build"
+    creates: "{{ sdr_pi_folder }}/src/libsddc/Makefile"
+  become: yes
+  async: 3600
+  poll: 0
+  register: cmake_libsddc
+  when: not libsddc.stat.exists        
+
+- name: (SoapySDR - SDDC) - Check on cmake progress
+  async_status:
+    jid: "{{ cmake_libsddc.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not libsddc.stat.exists  
+
+- name: (SoapySDR - SDDC) - Make LibSDDC
+  command: "/usr/bin/make"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/libsddc/build"
+    creates: "{{ sdr_pi_folder }}/src/libsddc/build/src/libsddc.so"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_libsddc
+  when: not libsddc.stat.exists        
+
+- name: (SoapySDR - SDDC) - Check on make progress
+  async_status:
+    jid: "{{ make_libsddc.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not libsddc.stat.exists  
+
+- name: (SoapySDR - SDDC) - Install LibSDDC
+  command: "/usr/bin/make install"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/libsddc/build"
+    creates: "/usr/local/bin/sddc_test"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_install_libsddc
+  when: not libsddc.stat.exists        
+
+- name: (SoapySDR - SDDC) - Check on Installation Progress
+  async_status:
+    jid: "{{ make_install_libsddc.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not libsddc.stat.exists  
+
+
+- name: (SoapySDR - SDDC) - Library configure (ldconfig) for LibSDDC
+  command: "ldconfig"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/libsddc/build"
+  become: yes
+  async: 3600
+  poll: 0
+  register: ldconfig_LibSDDC
+  when: not libsddc.stat.exists        
+
+- name: (SoapySDR - SDDC) - Check on Installation Progress
+  async_status:
+    jid: "{{ ldconfig_LibSDDC.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not libsddc.stat.exists  
+
+- name: (SoapySDR - SDDC) - Deploy udev rules
+  copy: 
+    remote_src: True 
+    src: "{{ sdr_pi_folder }}/src/libsddc/misc/99-sddc.rules"
+    dest: /etc/udev/rules.d/99-sddc.rules
+
+- name: (SoapySDR - SDDC) - Check to see if SDDC has already been deployed    
+  stat: 
+    path: "/usr/local/lib/SoapySDR/modules0.7/libFCDPPSupport.soq"
+  register: sddc
+
+- name: (SoapySDR - SDDC) - Ensure we have src folder for compilation
+  file:
+    path: "{{ sdr_pi_folder }}/src"
+    state: directory
+
+- name: (SoapySDR - SDDC) - Download SDDC and extract it to {{ sdr_pi_folder }}/src/sddc_connector
+  git:
+    repo: https://github.com/jketterl/sddc_connector.git
+    dest: "{{ sdr_pi_folder }}/src/sddc_connector"
+    force: yes
+
+- name: (SoapySDR - SDDC) - Cmake SDDC
+  command: "/usr/bin/cmake ."
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/sddc_connector"
+    creates: "{{ sdr_pi_folder }}/src/sddc_connector/Makefile"
+  become: yes
+  async: 3600
+  poll: 0
+  register: cmake_sddc
+  when: not sddc.stat.exists        
+
+- name: (SoapySDR - SDDC) - Check on cmake progress
+  async_status:
+    jid: "{{ cmake_sddc.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not sddc.stat.exists  
+
+- name: (SoapySDR - SDDC) - Make SDDC
+  command: "/usr/bin/make"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/sddc_connector"
+    creates: "{{ sdr_pi_folder }}/src/SoapyFCDPP/build/libFCDPPSupport.sox"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_sddc
+  when: not sddc.stat.exists        
+
+- name: (SoapySDR - SDDC) - Check on make progress
+  async_status:
+    jid: "{{ make_sddc.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+  when: not sddc.stat.exists  
+
+- name: (SoapySDR - SDDC) - Install SDDC
+  command: "/usr/bin/make install"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/src/sddc_connector"
+    creates: "/usr/local/lib/SoapySDR/modules0.7/libFCDPPSupport.soxß"
+  become: yes
+  async: 3600
+  poll: 0
+  register: make_install_sddc
+  when: not sddc.stat.exists        
+
+- name: (SoapySDR - SDDC) - Check on ldconfig Progress
+  async_status:
+    jid: "{{ make_install_sddc.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  when: not sddc.stat.exists  
+
