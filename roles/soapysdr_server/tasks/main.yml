@@ -4,11 +4,40 @@
 - name: (SoapySDR) Install Packages
   import_tasks: configure_packages.yml  
 
+- name: (SoapySDR) Install Princeton EDU WSJTX 2.5.4
+  import_tasks: install_wsjtx_2_5_4.yml
+
 - name: (SoapySDR) Install DREAM Plugin
   import_tasks: install_dream.yml
 
 - name: (SoapySDR) Install FreeDV Plugin
   import_tasks: install_freedv_rx.yml
+
+- name: (SoapySDR) Install SDRPlay Plugin
+  import_tasks: check_sdrplay_api_present.yml
+
+- name: (SoapySDR) Install PerseusSDR Plugin
+  import_tasks: install_perseussdr.yml
+
+- name: (SoapySDR) Install Pluto SDR Plugin
+  import_tasks: install_plutosdr.yml
+
+- name: (SoapySDR) Install FUNcube Dongle Pro+
+  import_tasks: install_funcube.yml
+
+- name: (SoapySDR) Install AirspyHF
+  import_tasks: install_airspyhf.yml
+
+- name: (SoapySDR) Install FifiSDR
+  import_tasks: install_fifisdr.yml
+
+- name: (SoapySDR) Install Radioberry
+  import_tasks: install_radioberry.yml
+
+# # SDDC support currently uses an NVDIA GPU (Compiles with nvcc)
+# # This is not on the hardware for a Raspberry Pi, therefore this cannot be supported
+# #- name: (SoapySDR) Install SDDC Plugin
+# #  import_tasks: install_sddc.yml
 
 - name: (SoapySDR) Deploy OpenWebRx WebSDR
   import_tasks: deploy_openwebrx_websdr.yml

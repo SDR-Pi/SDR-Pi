@@ -1,0 +1,149 @@
+# - name: (SoapySDR - WSJTX) - Install SDR Support Packages for Princeton Edu wsjtx package
+#   apt:
+#     pkg: 
+#       - libgfortran5 
+#       - libqt5widgets5
+#       - libqt5network5
+#       - libqt5printsupport5
+#       - libqt5multimedia5-plugins
+#       - libqt5serialport5 
+#       - libqt5sql5-sqlite
+#       - libfftw3-single3
+#       - libgomp1
+#       - libboost-all-dev
+#       #- libboost-atomic
+#       - libusb-1.0-0
+#       - libportaudio2
+#       - asciidoc
+#       - texinfo
+#       - qtmultimedia5-dev
+#       - libqt5serialport5-dev
+#       - qttools5-dev
+#       - qttools5-dev-tools
+#       - libboost-all-dev
+#       - libfftw3-dev
+#       - libreadline-dev
+#       - libusb-1.0-0-dev
+#       - libudev-dev
+#       - portaudio19-dev
+#   become: yes
+#   async: 3600
+#   poll: 0
+#   register: princeton_install
+
+# - name: (SoapySDR - WSJTX) - Check on Support Packages for Princeton Edu wsjtx install progress
+#   async_status:
+#     jid: "{{ princeton_install.ansible_job_id }}"
+#   register: job_result
+#   until: job_result.finished
+#   retries: 360
+#   delay: 10
+  
+# # # https://physics.princeton.edu/pulsar/k1jt/wsjtx-doc/wsjtx-main-2.5.4.html#INSTALL_LINUX
+# # - name: (SoapySDR - Packages) - Deploy wsjtx from Princeton Edu
+# #   apt:
+# #     deb: https://physics.princeton.edu/pulsar/K1JT/wsjtx_2.5.4_armhf.deb
+
+# - name: (SoapySDR - WSJTX) - Check to see if WSJTX has already been deployed    
+#   stat: 
+#     path: "{{ sdr_pi_folder }}/bin/wsjtx"
+#   register: wsjtx
+
+# - name: (SoapySDR - WSJTX) - Library configure (ldconfig) for WSJTX
+#   command: "ldconfig"
+#   args: 
+#     chdir: "{{ sdr_pi_folder }}/src/"
+#   become: yes
+#   async: 3600
+#   poll: 0
+#   register: ldconfig_PerseusSDR
+#   when: not wsjtx.stat.exists        
+
+# - name: (SoapySDR - WSJTX) - Check on Installation Progress
+#   async_status:
+#     jid: "{{ ldconfig_PerseusSDR.ansible_job_id }}"
+#   register: job_result
+#   until: job_result.finished
+#   retries: 100
+#   delay: 10
+#   when: not wsjtx.stat.exists 
+
+# - name: (SoapySDR - WSJTX) - Ensure we have src folder for compilation
+#   file:
+#     path: "{{ sdr_pi_folder }}/src"
+#     state: directory
+
+# - name: (SoapySDR - WSJTX) - Download WSJTX and extract it to {{ sdr_pi_folder }}/src
+#   unarchive:
+#     src: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.5.4.tgz
+#     dest: "{{ sdr_pi_folder }}/src"
+#     remote_src: yes
+
+# - name: (SoapySDR - WSJTX) - Ensure we have build folder for compilation
+#   file:
+#     path: "{{ sdr_pi_folder }}/src/wsjtx-2.5.4/build"
+#     state: directory
+
+# - name: (SoapySDR - WSJTX) - Cmake WSJTX
+#   command: "/usr/bin/cmake -D CMAKE_INSTALL_PREFIX={{ sdr_pi_folder }} .."
+#   args: 
+#     chdir: "{{ sdr_pi_folder }}/src/wsjtx-2.5.4/build"
+#     creates: "{{ sdr_pi_folder }}/src/wsjtx-2.5.4/build/Makefile"
+#   become: yes
+#   async: 3600
+#   poll: 0
+#   register: cmake_wsjtx
+#   when: not wsjtx.stat.exists        
+
+# - name: (SoapySDR - WSJTX) - Check on cmake progress
+#   async_status:
+#     jid: "{{ cmake_wsjtx.ansible_job_id }}"
+#   register: job_result
+#   until: job_result.finished
+#   retries: 360
+#   delay: 10
+#   when: not wsjtx.stat.exists  
+
+# - name: (SoapySDR - WSJTX) - Make WSJTX
+#   command: "/usr/bin/cmake --build . --target install"
+#   args: 
+#     chdir: "{{ sdr_pi_folder }}/src/wsjtx-2.5.4/build"
+#     creates: "{{ sdr_pi_folder }}/bin/wsjtx"
+#   become: yes
+#   async: 3600
+#   poll: 0
+#   register: make_wsjtx
+#   when: not wsjtx.stat.exists        
+
+# - name: (SoapySDR - WSJTX) - Check on make progress
+#   async_status:
+#     jid: "{{ make_wsjtx.ansible_job_id }}"
+#   register: job_result
+#   until: job_result.finished
+#   retries: 360
+#   delay: 10
+#   when: not wsjtx.stat.exists  
+
+# # - name: (SoapySDR - WSJTX) - Install WSJTX
+# #   command: "/usr/bin/make install"
+# #   args: 
+# #     chdir: "{{ sdr_pi_folder }}/src/wsjtx-2.5.4/build"
+# #     creates: "/usr/local/lib/SoapySDR/modules0.7/libPlutoSDRSupport.sos"
+# #   become: yes
+# #   async: 3600
+# #   poll: 0
+# #   register: make_install_wsjtx
+# #   when: not wsjtx.stat.exists        
+
+# # - name: (SoapySDR - WSJTX) - Check on Installation Progress
+# #   async_status:
+# #     jid: "{{ make_install_wsjtx.ansible_job_id }}"
+# #   register: job_result
+# #   until: job_result.finished
+# #   retries: 100
+# #   delay: 10
+# #   when: not wsjtx.stat.exists  
+
+- name: (SoapySDR - WSJTX) - Install Princeton Edu wsjtx
+  apt:
+    deb: https://physics.princeton.edu/pulsar/k1jt/wsjtx_2.5.4_arm64.deb

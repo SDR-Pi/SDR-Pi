@@ -17,7 +17,7 @@ Tested on:
     - Storage -> Your micro-sd
     - Chose OS:
         - Raspberry Pi OS (Other)
-            - Raspberry Pi OS Lite (32-bit) (Debian Bullseye)
+            - Raspberry Pi OS Lite (64-bit) (Debian Bullseye)
     - Settings:
         - Set Hostname: sdr-pi.local
         - Enable SSH:
