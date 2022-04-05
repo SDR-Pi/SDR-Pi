@@ -155,7 +155,7 @@ You can take a risk and kill dpkg, but that may leave the database in an inconsi
 
 Alternatively wait for the Package installation task to complete; if you are impatient then this script may give you confidence to wait:
 
-``` while (ps -eaf | grep /usr/bin/dpkg > /dev/null) ; do echo "Still Installing Packages" ; sleep 2 ;done ```
+``` while (ps -eaf | grep "/usr/bin/dpkg" | grep -v grep > /dev/null) ; do echo "Still Installing Packages" ; sleep 2 ;done ```
 
 ### SDRplay 
 
