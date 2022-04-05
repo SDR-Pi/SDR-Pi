@@ -159,7 +159,7 @@ Alternatively wait for the Package installation task to complete; if you are imp
 
 To see which package is actually being installed consider:
 
-``` while true; do clear; ps -efa   | grep dpkg-deb ; sleep 4 ; done ```
+``` while true; do clear; ps -efa   | grep "/usr/bin/dpkg" | grep -v grep  ; sleep 4 ; done ```
 
 ### SDRplay 
 
