@@ -1,5 +1,5 @@
 ---
-- name: (SoapySDR - PlutoSDR) - Install PlutoSDR Required Packages
+- name: (SoapySDR - Radioberry) - Install Radioberry Required Packages
   apt:
     pkg:
       - cmake
@@ -9,94 +9,94 @@
   become: yes
   async: 3600
   poll: 0
-  register: plutosdr_req_packages_install
+  register: radioberry_req_packages_install
 
-- name: (SoapySDR - PlutoSDR) - Check on install progress for required tools
+- name: (SoapySDR - Radioberry) - Check on install progress for required tools
   async_status:
-    jid: "{{ plutosdr_req_packages_install.ansible_job_id }}"
+    jid: "{{ radioberry_req_packages_install.ansible_job_id }}"
   register: job_result
   until: job_result.finished
   retries: 100
   delay: 10
 
-- name: (SoapySDR - PlutoSDR) - Check to see if PlutoSDR has already been deployed    
+- name: (SoapySDR - Radioberry) - Check to see if Radioberry has already been deployed    
   stat: 
-    path: "/usr/local/lib/SoapySDR/modules0.7/libPlutoSDRSupport.so"
-  register: plutosdr
+    path: "/usr/local/lib/SoapySDR/modules0.7/libSoapyRadioberrySDR.so"
+  register: radioberry
 
-- name: (SoapySDR - PlutoSDR) - Ensure we have src folder for compilation
+- name: (SoapySDR - Radioberry) - Ensure we have src folder for compilation
   file:
     path: "{{ sdr_pi_folder }}/src"
     state: directory
 
-- name: (SoapySDR - PlutoSDR) - Download PlutoSDR and extract it to {{ sdr_pi_folder }}/src/SoapyPlutoSDR
+- name: (SoapySDR - Radioberry) - Download Radioberry and extract it to {{ sdr_pi_folder }}/src/Radioberry-2.x
   git:
-    repo: https://github.com/pothosware/SoapyPlutoSDR
-    dest: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR"
+    repo: https://github.com/pa3gsb/Radioberry-2.x.git
+    dest: "{{ sdr_pi_folder }}/src/Radioberry-2.x"
 
-- name: (SoapySDR - PlutoSDR) - Ensure we have build folder for compilation
+- name: (SoapySDR - Radioberry) - Ensure we have build folder for compilation
   file:
-    path: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR/build"
+    path: "{{ sdr_pi_folder }}/src/Radioberry-2.x/SBC/rpi-4/SoapyRadioberrySDR/build"
     state: directory
 
 
-- name: (SoapySDR - PlutoSDR) - Cmake PlutoSDR
+- name: (SoapySDR - Radioberry) - Cmake Radioberry
   command: "/usr/bin/cmake .."
   args: 
-    chdir: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR/build"
-    creates: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR/build/Makefile"
+    chdir: "{{ sdr_pi_folder }}/src/Radioberry-2.x/SBC/rpi-4/SoapyRadioberrySDR/build"
+    creates: "{{ sdr_pi_folder }}/src/Radioberry-2.x/SBC/rpi-4/SoapyRadioberrySDR/build/Makefile"
   become: yes
   async: 3600
   poll: 0
-  register: cmake_plutosdr
-  when: not plutosdr.stat.exists        
+  register: cmake_radioberry
+  when: not radioberry.stat.exists        
 
-- name: (SoapySDR - PlutoSDR) - Check on cmake progress
+- name: (SoapySDR - Radioberry) - Check on cmake progress
   async_status:
-    jid: "{{ cmake_plutosdr.ansible_job_id }}"
+    jid: "{{ cmake_radioberry.ansible_job_id }}"
   register: job_result
   until: job_result.finished
   retries: 360
   delay: 10
-  when: not plutosdr.stat.exists  
+  when: not radioberry.stat.exists  
 
-- name: (SoapySDR - PlutoSDR) - Make PlutoSDR
-  command: "/usr/bin/make"
+- name: (SoapySDR - Radioberry) - Make Radioberry
+  command: "/usr/bin/make -j4"
   args: 
-    chdir: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR/build"
-    creates: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR/build/libPlutoSDRSupport.so"
+    chdir: "{{ sdr_pi_folder }}/src/Radioberry-2.x/SBC/rpi-4/SoapyRadioberrySDR/build"
+    creates: "{{ sdr_pi_folder }}/src/Radioberry-2.x/SBC/rpi-4/SoapyRadioberrySDR/build/libSoapyRadioberrySDR.so"
   become: yes
   async: 3600
   poll: 0
-  register: make_plutosdr
-  when: not plutosdr.stat.exists        
+  register: make_radioberry
+  when: not radioberry.stat.exists        
 
-- name: (SoapySDR - PlutoSDR) - Check on make progress
+- name: (SoapySDR - Radioberry) - Check on make progress
   async_status:
-    jid: "{{ make_plutosdr.ansible_job_id }}"
+    jid: "{{ make_radioberry.ansible_job_id }}"
   register: job_result
   until: job_result.finished
   retries: 360
   delay: 10
-  when: not plutosdr.stat.exists  
+  when: not radioberry.stat.exists  
 
-- name: (SoapySDR - PlutoSDR) - Install PlutoSDR
+- name: (SoapySDR - Radioberry) - Install Radioberry
   command: "/usr/bin/make install"
   args: 
-    chdir: "{{ sdr_pi_folder }}/src/SoapyPlutoSDR/build"
-    creates: "/usr/local/lib/SoapySDR/modules0.7/libPlutoSDRSupport.so"
+    chdir: "{{ sdr_pi_folder }}/src/Radioberry-2.x/SBC/rpi-4/SoapyRadioberrySDR/build"
+    creates: "/usr/local/lib/SoapySDR/modules0.7/libSoapyRadioberrySDR.so"
   become: yes
   async: 3600
   poll: 0
-  register: make_install_plutosdr
-  when: not plutosdr.stat.exists        
+  register: make_install_radioberry
+  when: not radioberry.stat.exists        
 
-- name: (SoapySDR - PlutoSDR) - Check on Installation Progress
+- name: (SoapySDR - Radioberry) - Check on Installation Progress
   async_status:
-    jid: "{{ make_install_plutosdr.ansible_job_id }}"
+    jid: "{{ make_install_radioberry.ansible_job_id }}"
   register: job_result
   until: job_result.finished
   retries: 100
   delay: 10
-  when: not plutosdr.stat.exists  
+  when: not radioberry.stat.exists  
 
