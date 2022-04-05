@@ -89,7 +89,7 @@
   command: "/usr/bin/make install"
   args: 
     chdir: "{{ sdr_pi_folder }}/src/dream"
-    creates: "{{ sdr_pi_folder }}/src/dream/dream"
+    creates: "/usr/bin/dream"
   become: yes
   async: 3600
   poll: 0
