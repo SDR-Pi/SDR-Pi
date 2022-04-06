@@ -73,3 +73,20 @@
   file:
     path: "{{ sdr_pi_folder }}/wiki/install.php"
     state: absent
+
+
+- name: (Webserver - Dokuwiki) - Deploy Wiki Data content
+  git:
+    repo: "{{ sdr_pi_admin_wiki_git_repo }}"
+    dest: "{{ sdr_pi_folder }}/wiki/data"
+    force: yes
+    accept_newhostkey: yes
+  when: (sdr_pi_admin_wiki_git_repo is defined) and (sdr_pi_admin_wiki_git_repo | length > 0)
+
+- name: (Webserver - Dokuwiki) - Set Permissions on Dokuwiki content
+  file: 
+    dest: "{{ sdr_pi_folder }}/wiki/data"
+    owner: www-data 
+    group: www-data 
+    mode: "u=rwX,g=rX,o=rX"
+    recurse: yes

@@ -82,7 +82,7 @@
     dest: "{{ sdr_pi_folder }}/webdav"
     force: yes
     accept_newhostkey: yes
-  when: (sdr_pi_admin_webdav_git_repo is defined) and (sdr_pi_admin_webdav_git_repo|length > 0)
+  when: (sdr_pi_admin_webdav_git_repo is defined) and (sdr_pi_admin_webdav_git_repo | length > 0)
 
 - name: (Webserver - Apache) - Set Permissions on WebDav content
   file: 
