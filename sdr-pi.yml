@@ -11,3 +11,5 @@
     - soapysdr_server
     - bettercap
     - readonly_pi
+    - reboot_pi
+
