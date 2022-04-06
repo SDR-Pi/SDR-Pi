@@ -17,5 +17,5 @@
     jid: "{{ bettercap_dependencies_install.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10

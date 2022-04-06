@@ -21,7 +21,7 @@
     jid: "{{ go_get.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
   when: not bettercap.stat.exists  
 
@@ -48,6 +48,6 @@
     jid: "{{ caplets.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
   when: not caplets_dir.stat.exists
