@@ -30,6 +30,11 @@
     - dav
     - dav_fs
 
+- name: (Webserver - Apache) - Remove WebDAV folder prior to deployment
+  file:
+    path: "{{ sdr_pi_folder }}/wiki/data"
+    state: absent
+
 - name: (Webserver - Apache) - Required folders
   file:
     path: "{{ sdr_pi_folder }}/{{item}}/"

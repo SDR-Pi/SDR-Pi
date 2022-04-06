@@ -74,6 +74,19 @@
     path: "{{ sdr_pi_folder }}/wiki/install.php"
     state: absent
 
+- name: (Webserver - Dokuwiki) - Remove Default Data folder from dokuwiki
+  file:
+    path: "{{ sdr_pi_folder }}/wiki/data"
+    state: absent
+
+- name: (Webserver - Dokuwiki) - Recreate data folder
+  file:
+    path: "{{ sdr_pi_folder }}/wiki/{{item}}/"
+    state: directory
+    owner: www-data
+    group: www-data
+  with_items:
+    - data
 
 - name: (Webserver - Dokuwiki) - Deploy Wiki Data content
   git:
