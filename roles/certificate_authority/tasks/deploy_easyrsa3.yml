@@ -3,7 +3,7 @@
   stat: path={{ sdr_pi_folder }}/easyrsa3
   register: easyrsa
 
-- name: (Certificate Authority - Deploy) - Install Easyrsa3 scripts
+- name: (Certificate Authority - Deploy) - Install EasyRSA3 scripts
   copy:
     src: easyrsa3/
     dest: "{{ sdr_pi_folder }}/easyrsa3/"

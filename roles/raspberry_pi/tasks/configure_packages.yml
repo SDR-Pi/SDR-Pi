@@ -29,6 +29,7 @@
       - bind9-dnsutils
       - tcpdump
       - python3-passlib 
+      - git
   become: yes
   async: 3600
   poll: 0
