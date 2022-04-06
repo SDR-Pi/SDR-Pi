@@ -1,3 +1,5 @@
 ---
 ansible_python_interpreter: auto_silent
-ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s'
+ansible_ssh_common_args: '-o ControlMaster=auto -o ControlPersist=60s -o ControlPath=/tmp/ansible-ssh-%h-%p-%r -o ForwardAgent=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '
+
+become_flags: "--preserve-env=SSH_AUTH_SOCK"

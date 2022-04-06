@@ -79,5 +79,14 @@
   git:
     repo: "{{ sdr_pi_admin_webdav_git_repo }}"
     dest: "{{ sdr_pi_folder }}/webdav"
+    force: yes
+    accept_newhostkey: yes
   when: (sdr_pi_admin_webdav_git_repo is defined) and (sdr_pi_admin_webdav_git_repo|length > 0)
 
+- name: (Webserver - Apache) - Set Permissions on WebDav content
+  file: 
+    dest: "{{ sdr_pi_folder }}/webdav"
+    owner: www-data 
+    group: www-data 
+    mode: "u=rwX,g=rX,o=rX"
+    recurse: yes
