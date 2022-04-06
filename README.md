@@ -8,7 +8,7 @@ Tested on:
 -  Raspberry Pi 3b
 
 **Note:** the build process currently assumes you have a wired interface with dhcp for initial setup. Therefore building on a WiFi connection only may be unreliable.
-**Note2:** the build process currently fails on 64bit debian due to differences in packages.
+**Note2:** the build process works fine on 64bit debian, however the performance on a Pi 3b is not usable.
 
 ### Prepare Raspberry Pi OS Image
 
@@ -148,7 +148,7 @@ The default Raspberry Pi wireless adaptor cannot act as both an access point and
 
 ### Package installation
 
-If the load on the Pi causes the watch script within ansible to time out you may not be able to re-run the playbook as the dpkg subsystem will be locked.
+If the load on the Pi causes the watch script within ansible to time out ("```fatal: [sdr_pi]: FAILED! => {"msg": "Timeout (12s) waiting for privilege escalation prompt: "}```") you may not be able to re-run the playbook as the dpkg subsystem will be locked.
 
 You can take a risk and kill dpkg, but that may leave the database in an inconsistent state. In which case try:
 

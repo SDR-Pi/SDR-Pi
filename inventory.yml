@@ -21,7 +21,8 @@ all:
     sdr_pi_admin_password: "password"
     sdr_pi_admin_webdav: "webdav"
     # Assumes SSH Agent forwarding has access to an SSH key or is public repo
-    sdr_pi_admin_webdav_git_repo: ""
+    sdr_pi_admin_wiki_git_repo: "git@github.com:sclow/sdr-pi-wiki.git"
+    sdr_pi_admin_webdav_git_repo: "git@github.com:sclow/sdr-pi-webdav.git"
 
     # Apache Authentication via htdigest
     sdr_pi_htdigest:
