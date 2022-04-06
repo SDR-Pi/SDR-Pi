@@ -16,7 +16,7 @@
     jid: "{{ sddc_req_packages_install.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
 
 - name: (SoapySDR - SDDC) - Check to see if LibSDDC has already been deployed    
@@ -95,7 +95,7 @@
     jid: "{{ make_install_libsddc.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
   when: not libsddc.stat.exists  
 
@@ -115,7 +115,7 @@
     jid: "{{ ldconfig_LibSDDC.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
   when: not libsddc.stat.exists  
 
@@ -197,7 +197,7 @@
     jid: "{{ make_install_sddc.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
   when: not sddc.stat.exists  
 

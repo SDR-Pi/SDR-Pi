@@ -29,6 +29,8 @@
       - openwebrx
       - soapy-connector
       - owrx-connector
+      - digiham
+      - python3-digiham
     update_cache: yes
   become: yes
   async: 3600
@@ -40,7 +42,7 @@
     jid: "{{ openwebrx_install.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
 
 - name: (SoapySDR - OpenWebRx) - Deploy custom SystemD unit for openwebrx

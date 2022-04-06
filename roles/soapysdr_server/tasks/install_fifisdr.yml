@@ -16,7 +16,7 @@
     jid: "{{ fifisdr_req_packages_install.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
 
 - name: (SoapySDR - FifiSDR) - Check to see if FifiSDR has already been deployed    

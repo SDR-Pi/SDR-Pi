@@ -16,7 +16,7 @@
     jid: "{{ radioberry_req_packages_install.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
 
 - name: (SoapySDR - Radioberry) - Check to see if Radioberry has already been deployed    
@@ -96,7 +96,7 @@
     jid: "{{ make_install_radioberry.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
   when: not radioberry.stat.exists  
 

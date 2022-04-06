@@ -15,7 +15,7 @@
     jid: "{{ soapy_install.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
 
 - name: (SoapySDR - Packages) - Install SDR Support Packages
@@ -49,6 +49,7 @@
       - soapysdr-module-rfspace
       - soapysdr-module-rtlsdr
       - soapysdr-module-uhd
+      - libsoapysdr-dev
       #- soapysdr-module-xtrx
   become: yes
   async: 3600
@@ -60,7 +61,7 @@
     jid: "{{ support_install.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
 
 - name: (SoapySDR - Packages) - Install Helpful Packages
@@ -72,8 +73,6 @@
       - quisk
       - hamradio-sdr
       - hamradio-digitalvoice
-      - digiham
-      - python3-digiham
   become: yes
   async: 3600
   poll: 0
@@ -84,7 +83,7 @@
     jid: "{{ helpful_install.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
 
 - name: (SoapySDR - Packages) - Deploy Environment file for soapyremote-server

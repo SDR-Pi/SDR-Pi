@@ -5,6 +5,7 @@
       - cmake
       - libad9361-dev
       - libiio-dev
+      - libsoapysdr-dev
     update_cache: yes
   become: yes
   async: 3600
@@ -16,7 +17,7 @@
     jid: "{{ plutosdr_req_packages_install.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
 
 - name: (SoapySDR - PlutoSDR) - Check to see if PlutoSDR has already been deployed    
@@ -96,7 +97,7 @@
     jid: "{{ make_install_plutosdr.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
   when: not plutosdr.stat.exists  
 
