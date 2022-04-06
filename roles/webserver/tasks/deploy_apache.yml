@@ -18,7 +18,7 @@
     jid: "{{ apache_install.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 360
   delay: 10
 
 - name: (Webserver - Apache) - Enable Apache WebDAV modules

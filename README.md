@@ -8,6 +8,7 @@ Tested on:
 -  Raspberry Pi 3b
 
 **Note:** the build process currently assumes you have a wired interface with dhcp for initial setup. Therefore building on a WiFi connection only may be unreliable.
+**Note2:** the build process currently fails on 64bit debian due to differences in packages.
 
 ### Prepare Raspberry Pi OS Image
 
@@ -17,7 +18,7 @@ Tested on:
     - Storage -> Your micro-sd
     - Chose OS:
         - Raspberry Pi OS (Other)
-            - Raspberry Pi OS Lite (64-bit) (Debian Bullseye)
+            - Raspberry Pi OS Lite (32-bit) (Debian Bullseye)
     - Settings:
         - Set Hostname: sdr-pi.local
         - Enable SSH:

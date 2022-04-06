@@ -1,3 +1,6 @@
+- name: (SoapySDR - WSJTX) Check Host alive
+  ping:
+
 # - name: (SoapySDR - WSJTX) - Install SDR Support Packages for Princeton Edu wsjtx package
 #   apt:
 #     pkg: 
@@ -144,6 +147,6 @@
 # #   delay: 10
 # #   when: not wsjtx.stat.exists  
 
-- name: (SoapySDR - WSJTX) - Install Princeton Edu wsjtx
-  apt:
-    deb: https://physics.princeton.edu/pulsar/k1jt/wsjtx_2.5.4_arm64.deb
+# - name: (SoapySDR - WSJTX) - Install Princeton Edu wsjtx
+#   apt:
+#     deb: https://physics.princeton.edu/pulsar/k1jt/wsjtx_2.5.4_arm64.deb
