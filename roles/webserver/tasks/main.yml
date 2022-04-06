@@ -5,6 +5,9 @@
 - name: (Webserver) Deploy Apache
   import_tasks: deploy_apache.yml
 
+- name: (Webserver) Deploy Dokuwiki
+  import_tasks: deploy_dokuwiki.yml
+
 # - name: (Webserver) Deploy HAProxy
 #   import_tasks: deploy_haproxy.yml
 

@@ -30,7 +30,7 @@
     - dav
     - dav_fs
 
-- name: (Webserver - Apache) - DavLock folders
+- name: (Webserver - Apache) - Required folders
   file:
     path: "{{ sdr_pi_folder }}/{{item}}/"
     state: directory
@@ -39,6 +39,7 @@
   with_items:
     - DavLock
     - webdav
+    - wiki
 
 - name: (Webserver - Apache) - Create and propagate htdigest file for authentication
   template:
@@ -68,7 +69,7 @@
     src: var/www/html/index.html.j2
     dest: /var/www/html/index.html
 
-- name: (Webserver - Apache) - restart Apache web server
+- name: (Webserver - Apache) - Restart Apache web server
   become: yes
   service: 
     name: apache2

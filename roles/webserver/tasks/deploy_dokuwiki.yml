@@ -1,0 +1,75 @@
+---
+- name: (Webserver - Dokuwiki) - Install Apache2 Packages
+  apt:
+    pkg:
+      - php 
+      - libapache2-mod-php 
+      - php-xml
+    update_cache: yes
+  become: yes
+  async: 3600
+  poll: 0
+  register: dokuwiki_apache_install
+
+- name: (Webserver - Dokuwiki) - Check on install progress
+  async_status:
+    jid: "{{ dokuwiki_apache_install.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 360
+  delay: 10
+
+- name: (Webserver - Dokuwiki) - Required folders
+  file:
+    path: "{{ sdr_pi_folder }}/{{item}}/"
+    state: directory
+    owner: www-data
+    group: www-data
+  with_items:
+    - DavLock
+    - webdav
+    - wiki
+
+- name: (Webserver - Dokuwiki) - Download Dokuwiki and extract it to "{{ sdr_pi_folder }}/wiki"
+  unarchive:
+    src: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
+    dest: "{{ sdr_pi_folder }}/wiki"
+    remote_src: yes
+    owner: www-data
+    group: www-data
+    extra_opts:
+    - --strip-components=1
+
+- name: (Webserver - Dokuwiki) - Restart Apache web server
+  become: yes
+  service: 
+    name: apache2
+    enabled: yes 
+    state: restarted
+
+- name: (Webserver - Dokuwiki) - Set Permissions on wiki content
+  file: 
+    dest: "{{ sdr_pi_folder }}/wiki"
+    owner: www-data 
+    group: www-data 
+    mode: "u=rwX,g=rX,o=rX"
+    recurse: yes
+
+- name: (Webserver - Dokuwiki) - Deploy site configuration for Dokuwiki
+  template:
+    src: usr/sdr-pi/wiki/conf/local.php.j2
+    dest: "{{ sdr_pi_folder }}/wiki/conf/local.php"
+    owner: www-data 
+    group: www-data 
+
+- name: (Webserver - Dokuwiki) - Deploy user auth for Dokuwiki
+  template:
+    src: usr/sdr-pi/wiki/conf/users.auth.php.j2
+    dest: "{{ sdr_pi_folder }}/wiki/conf/users.auth.php"
+    owner: www-data 
+    group: www-data
+
+- name: (Webserver - Dokuwiki) - Remove Install.php from dokuwiki
+  file:
+    path: "{{ sdr_pi_folder }}/wiki/install.php"
+    state: absent

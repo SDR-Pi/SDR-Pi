@@ -33,10 +33,18 @@ DavLockDB {{ sdr_pi_folder }}/DavLock/Database
 	Alias /webdav {{ sdr_pi_folder }}/webdav
 	<Directory {{ sdr_pi_folder }}/webdav>
 		Options +Indexes
-	    DAV On
+		DAV On
 		AuthType Digest
 		AuthName "webdav"
 		AuthUserFile {{ sdr_pi_folder }}/DavLock//users.password
 		Require valid-user
 	</Directory>
+
+	Alias /wiki {{ sdr_pi_folder }}/wiki
+	<Directory {{ sdr_pi_folder }}/wiki>
+		Options FollowSymLinks
+		AllowOverride All
+		Require all granted
+	</Directory>
+
 </VirtualHost>
