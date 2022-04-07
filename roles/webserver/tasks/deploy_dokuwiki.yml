@@ -5,6 +5,7 @@
       - php 
       - libapache2-mod-php 
       - php-xml
+      - php-sqlite3
     update_cache: yes
   become: yes
   async: 3600
@@ -69,6 +70,13 @@
     owner: www-data 
     group: www-data
 
+- name: (Webserver - Dokuwiki) - Deploy ACL allowing all to read our Dokuwiki
+  template:
+    src: usr/sdr-pi/wiki/conf/acl.auth.php.j2
+    dest: "{{ sdr_pi_folder }}/wiki/conf/acl.auth.php"
+    owner: www-data 
+    group: www-data
+
 - name: (Webserver - Dokuwiki) - Remove Install.php from dokuwiki
   file:
     path: "{{ sdr_pi_folder }}/wiki/install.php"
@@ -103,3 +111,22 @@
     group: www-data 
     mode: "u=rwX,g=rX,o=rX"
     recurse: yes
+
+- name: (Webserver - Dokuwiki) - Install Plugins
+  command: "/usr/bin/php bin/plugin.php extension install {{ item.key }}"
+  args: 
+    chdir: "{{ sdr_pi_folder }}/wiki"
+    creates: "{{ sdr_pi_folder }}/wiki/lib/plugins/{{ item.key }}"
+  # become: yes
+  # async: 3600
+  # poll: 0 
+  loop: "{{ lookup('dict', sdr_pi_dokuwiki_plugins) }}"
+
+- name: (Webserver - Dokuwiki) - Disable defer_js 
+  lineinfile:
+    path: "{{ sdr_pi_folder }}/wiki/conf/dokuwiki.php"
+    regexp: "conf['defer_js']"
+    line: "$conf['defer_js'] = 0;                   // Defer javascript to be executed after the page's HTML has been parsed. Setting will be removed in the next release."
+    owner: root
+    group: root
+    mode: '0644'

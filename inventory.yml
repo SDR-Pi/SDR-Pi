@@ -59,6 +59,21 @@ all:
     # default https port is 443
     bettercap_https_server_port: 9443
 
+    sdr_pi_dokuwiki_plugins:
+      indexmenu:
+        url: https://github.com/samuelet/indexmenu/archive/master.zip
+      fastwiki:
+        url: https://github.com/zioth/dokuwiki_fastwiki/archive/master.zip
+      gitbacked:   
+        url: https://github.com/woolfg/dokuwiki-plugin-gitbacked/archive/master.zip
+      sqlite:
+        url: https://github.com/cosmocode/sqlite/tarball/master.zip
+      tagfilter:
+        url: https://github.com/lisps/tagfilter/archive/master.zip
+      tagging:
+        url: https://github.com/cosmocode/tagging/zipball/master.zip
+
+
   children:
     sdr_pis:
       hosts:
