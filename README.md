@@ -1,13 +1,14 @@
-# Sdr Pi
+# SDR Pi
 
-Deploy standalone PI with SOAPYSDR a wireless access point and the ability to host training material and GNURadio Companion Graphs for easy usage. 
+Deploy standalone PI with SOAPYSDR as a wireless access point and the ability to host a wiki with basic usage material and GNURadio Companion Graphs for easy experimentation in RF. 
 
-## Installing Base PI
+## Installing Base Pi
 
 Tested on:
 -  Raspberry Pi 3b
 
 **Note:** the build process currently assumes you have a wired interface with dhcp for initial setup. Therefore building on a WiFi connection only may be unreliable.
+
 **Note2:** the build process works fine on 64bit debian, however the performance on a Pi 3b is not usable.
 
 ### Prepare Raspberry Pi OS Image
@@ -121,9 +122,9 @@ A WebDAV folder is exposed on Apache as [https://sdr-pi.local/webdav](https://sd
 
 This can be accessed in a browser, but to mount drives to is you will first need to add the CA file to your trusted certificate store. 
 
-#### MediaWiki 
+#### Dokuwiki 
 
-An instance of Media Wiki is exposed on [https://sdr-pi.local/wiki](https://sdr-pi.local/wiki), you can use the Git plugin to synchronise this with an existing MediaWiki instance. 
+An instance of Dokuwiki is exposed on [https://sdr-pi.local/wiki](https://sdr-pi.local/wiki), you can use the Git plugin to synchronise this with an existing Dokuwiki instance. 
 
 #### OpenWebRx
 
@@ -136,7 +137,7 @@ If you do not have any SDR's detected, either reboot with your chosen hardware a
 This requires us to wait a while for certain hardware; so the hot swap function takes between 30-60 seconds to complete.
 The easiest way to determine success is to just look at the websdr waterfall until you start to see some data stream (audio will also engage).
 
-As you come across issues with the hot swap functions, please can you log them as issues on Github so that I can debug them with you.
+As you come across issues with the hot swap functions, please can you log them as issues on Github so that we can debug them with you.
 
 #### Bettercap
 
