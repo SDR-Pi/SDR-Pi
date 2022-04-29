@@ -30,6 +30,8 @@
       - tcpdump
       - python3-passlib 
       - git
+      - usbutils
+      - usb.ids
   become: yes
   async: 3600
   poll: 0
