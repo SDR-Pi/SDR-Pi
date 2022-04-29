@@ -30,6 +30,15 @@
             "remote": "tcp://127.0.0.1:55132",
             "remote_driver": "rtlsdr"
         }, 
+        "soapy_sdrplay": {
+            "name": "SoapySDR-SDRPlay",
+            "type": "soapy_remote",
+{% include "templates/var/lib/openwebrx/profiles.json.j2" ignore missing %}      
+            "rf_gain": "auto",
+            "ppm": 0,
+            "remote": "tcp://127.0.0.1:55132",
+            "remote_driver": "sdrplay"
+        }, 
         "soapy_ettus": {
             "name": "SoapySDR-Ettus_UHD",
             "type": "soapy_remote",
