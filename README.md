@@ -113,8 +113,10 @@ Specific configuration stanza's:
     - Driver Arguments: "soapy=0,driver=remote,remote=sdr.radio:55132,remote:driver=bladerf"
 - HackRF Blue (Should be same as HackRF One)
     - Driver Arguments: "soapy=0,driver=remote,remote=sdr.radio:55132,remote:driver=hackrf"
-- BladeRF Micro A9
+- RTL-SDR Dongle
     - Driver Arguments: "soapy=0,driver=remote,remote=sdr.radio:55132,remote:driver=rtlsdr"
+- SDRPlay
+    - Driver Arguments: "soapy=0,driver=remote,remote=sdr.radio:55132,remote:driver=sdrplay"
 
 #### WebDAV file store
 
