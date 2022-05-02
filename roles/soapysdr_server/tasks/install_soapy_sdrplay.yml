@@ -99,7 +99,7 @@
   when: not SDRPlay.stat.exists  
 
 - name: (SoapySDR - SDRPlay) - Create SDR Replay restart script
-  file:
+  copy:
     dest: /usr/local/bin/restartSDRplay
     mode: "0755"
     owner: root
