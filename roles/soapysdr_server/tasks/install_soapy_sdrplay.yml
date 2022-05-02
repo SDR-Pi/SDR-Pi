@@ -97,3 +97,21 @@
   retries: 360
   delay: 10
   when: not SDRPlay.stat.exists  
+
+- name: (SoapySDR - SDRPlay) - Create SDR Replay restart script
+  file:
+    dest: /usr/local/bin/restartSDRplay
+    mode: "0755"
+    owner: root
+    group: root
+    content: |
+      #!/bin/sh
+      # v0.1 - first version
+      # Script to restart the RSP API service
+
+      sudo systemctl stop sdrplay
+      sudo pkill sdrplay_apiService
+      sudo rm -f /dev/shm/Glbl\\sdrSrv*
+      sudo systemctl start sdrplay
+
+      

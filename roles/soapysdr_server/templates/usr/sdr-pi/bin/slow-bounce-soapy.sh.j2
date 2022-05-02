@@ -16,6 +16,12 @@ slow_bounce()
     #logger SlowBounce: Starting Soapyremote-server
     #systemctl start soapyremote-server
 
+    # If we have the SDRPlay API service, we should restart it
+    if [ -f /usr/local/bin/restartSDRplay ] ; then
+        logger SlowBounce: Restarting sdrplay API
+        /usr/local/bin/restartSDRplay
+    fi
+    
     # Check to see if SoapySDR is still playing nice on TCP
     SoapySDR=$(SoapySDRUtil --find="remote=127.0.0.1" 2>&1 | grep "SoapyRemote::find" | grep "\[ERROR\]")
     if [ -n "${SoapySDR}" ] ; then
